@@ -32,7 +32,7 @@ class AddTask extends React.Component {
     const { dispatch } = this.props;
     const { router: { history } } = this.context;
 
-    dispatch(addTodo({
+    dispatch(addTask({
       description: this.state.description,
       details: this.state.details,
     }));
