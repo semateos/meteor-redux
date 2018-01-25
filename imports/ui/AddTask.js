@@ -2,8 +2,11 @@ import React from 'react';
 import { Button, TextField } from 'material-ui';
 import { Add } from 'material-ui-icons';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import addTask from '../actions/addTask';
 
-export class AddTask extends React.Component {
+class AddTask extends React.Component {
+
   state = {
     _id: null,
     description: '',
@@ -26,23 +29,20 @@ export class AddTask extends React.Component {
     this.setState({ [name]: value });
 
   addTaskAndGo = () => {
+    const { dispatch } = this.props;
     const { router: { history } } = this.context;
-    const { addTask } = this.props;
-    addTask({
-      variables: {
-        task: {
-          description: this.state.description,
-          details: this.state.details,
-        },
-      },
-    }).then(({ data: { addTask: { _id } } }) => {
-      if (_id) {
-        history.push('/');
-      }
-    });
+
+    dispatch(addTodo({
+      description: this.state.description,
+      details: this.state.details,
+    }));
+
+    history.push('/');
+
   };
 
   render() {
+
     return (
       <form className="form">
         <TextField
@@ -77,3 +77,5 @@ AddTask.contextTypes = {
     history: PropTypes.object.isRequired,
   }),
 };
+
+export default connect()(AddTask);
