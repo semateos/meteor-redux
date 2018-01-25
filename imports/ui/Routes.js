@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { TasksContainer } from '../containers/TasksContainer';
-import { AddTask } from '../ui/AddTask';
+import AddTask from '../ui/AddTask';
 
 export const Routes = () => (
   <Switch>
