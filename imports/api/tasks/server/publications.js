@@ -1,4 +1,4 @@
-import { TasksCollection } from '../imports/collections/Tasks';
+import { TasksCollection } from '../../../imports/collections/Tasks';
 
 const taskPubFields = {
   description: true,
