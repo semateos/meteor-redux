@@ -1,9 +1,9 @@
-import { TasksCollection } from '../../../imports/collections/Tasks';
+import { Tasks } from '../tasks';
 
 const taskPubFields = {
   description: true,
   details: true,
-  done: true
+  done: true,
 };
 
 const getTaskPublication = function (filter, pageSkip = 0) {
@@ -21,12 +21,12 @@ const getTaskPublication = function (filter, pageSkip = 0) {
       break;
   }
 
-  Counts.publish(this, 'TaskCount', Todos.find(query));
+  Counts.publish(this, 'TaskCount', Tasks.find(query));
 
-  return TasksCollection.find(query, {
+  return Tasks.find(query, {
     fields: taskPubFields,
     skip: pageSkip,
-    limit: 10
+    limit: 10,
   });
 };
 

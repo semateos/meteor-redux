@@ -16,3 +16,4 @@ shell-server@0.3.0            # Server-side component of the `meteor shell` comm
 fourseven:scss
 swydo:ddp-apollo
 tmeasday:publish-counts
+mdg:validated-method

@@ -1,9 +1,9 @@
-import { TasksCollection } from '../collections/Tasks';
+import { Tasks } from '../collections/Tasks';
 
 export default function toggleTask(id) {
   return () => {
-    const task = TasksCollection.findOne(id);
-    TasksCollection.update({ id }, { $set: { done: !task.done } });
-    return TasksCollection.findOne(id);
+    const task = Tasks.findOne(id);
+    Tasks.update({ id }, { $set: { done: !task.done } });
+    return Tasks.findOne(id);
   };
 };

@@ -1,4 +1,3 @@
-import { TasksCollection } from '../collections/Tasks';
 
 export default function addTask(task) {
 
@@ -8,6 +7,14 @@ export default function addTask(task) {
 
     console.log('addTask action return', task);
 
-    TasksCollection.findOne(TasksCollection.insert({ task }));
+    Meteor.call('tasks.insert', task);
+
+    /*addTaskMethod.call(task, (err, res) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(res);
+      }
+    });*/
   };
-};
+}
