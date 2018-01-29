@@ -1,8 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { List } from 'material-ui';
 import { Task } from './Task';
 
-export const Tasks = ({ data: { loading, tasks }, ...rest }) => {
+const TaskList = ( { tasks, loading, ...rest }) => {
+
   if (loading) {
     return <div>loading...</div>;
   }
@@ -17,3 +19,10 @@ export const Tasks = ({ data: { loading, tasks }, ...rest }) => {
     </List>
   );
 };
+
+TaskList.propTypes = {
+  tasks: PropTypes.array,
+  loading: PropTypes.bool,
+};
+
+export default TaskList;
