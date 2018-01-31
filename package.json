@@ -45,6 +45,12 @@
   "eslintConfig": {
     "extends": [
       "tecsinapse-js"
-    ]
+    ],
+    "parserOptions": {
+      "ecmaVersion": 6
+    },
+    "env": {
+      "es6": true
+    }
   }
 }

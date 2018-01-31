@@ -20,6 +20,11 @@ const TaskList = ( { tasks, loading, ...rest }) => {
   );
 };
 
+TaskList.defaultProps = {
+  tasks: [],
+  loading: true,
+};
+
 TaskList.propTypes = {
   tasks: PropTypes.array,
   loading: PropTypes.bool,

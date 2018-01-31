@@ -1,12 +1,12 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import TaskListContainer from '/imports/containers/TaskListContainer';
-import AddTask from '/imports/ui/AddTask';
+import AddTaskContainer from '/imports/containers/AddTaskContainer';
 
 export const Routes = () => (
   <Switch>
     <Route exact path="/" component={TaskListContainer} />
-    <Route path="/add" component={AddTask} />
-    <Route path="/edit/:_id" component={AddTask} />
+    <Route path="/add" component={AddTaskContainer} />
+    <Route path="/edit/:_id" component={AddTaskContainer} />
   </Switch>
 );

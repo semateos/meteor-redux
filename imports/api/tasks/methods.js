@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
-import { Tasks } from './tasks';
+import { Tasks } from './collection';
 
-export const insertTask = new ValidatedMethod({
+export const insert = new ValidatedMethod({
 
   name: 'tasks.insert',
 
@@ -14,22 +14,20 @@ export const insertTask = new ValidatedMethod({
 
   run({ description, details }) {
     Tasks.insert({ description, details }, (err, res) => {
-      if (err) {
-        console.error(err);
-      } else {
-        console.log(res);
-      }
+      //do stuff here
     });
   },
 });
 
-export const updateTask = new ValidatedMethod({
+export const update = new ValidatedMethod({
 
   name: 'tasks.update',
 
   validate: new SimpleSchema({
-    description: { type: String },
+    _id: { type: String },
+    description: { type: String, optional: true },
     details: { type: String, optional: true },
+    done: { type: Boolean, optional: true },
   }).validator(),
 
   run({ description, details }) {

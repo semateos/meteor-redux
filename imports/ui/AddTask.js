@@ -2,8 +2,6 @@ import React from 'react';
 import { Button, TextField } from 'material-ui';
 import { Add } from 'material-ui-icons';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import addTask from '../actions/addTask';
 
 class AddTask extends React.Component {
 
@@ -13,37 +11,15 @@ class AddTask extends React.Component {
     details: '',
   };
 
-  componentWillReceiveProps(nextProps) {
-    const { data } = nextProps;
-    if (!data || data.loading) {
-      return;
-    }
-    this.setState({
-      _id: data.task._id || null,
-      description: data.task.description || '',
-      details: data.task.details || '',
-    });
-  }
-
   onInputChange = ({ target: { name, value } }) =>
     this.setState({ [name]: value });
 
-  addTaskAndGo = () => {
-    const { dispatch } = this.props;
-    const { router: { history } } = this.context;
-
-    let task = {
+  onSubmit = () => {
+    this.props.onSubmit({
       description: this.state.description,
       details: this.state.details,
-    };
-
-    console.log("addTaskAndGo", task);
-
-    dispatch(addTask(task));
-
-    history.push('/');
-
-  };
+    });
+  }
 
   render() {
 
@@ -67,7 +43,7 @@ class AddTask extends React.Component {
           className="form-action"
           raised
           color="primary"
-          onClick={this.addTaskAndGo}
+          onClick={this.onSubmit}
         >
           <Add /> Task
         </Button>
@@ -76,10 +52,12 @@ class AddTask extends React.Component {
   }
 }
 
-AddTask.contextTypes = {
-  router: PropTypes.shape({
-    history: PropTypes.object.isRequired,
-  }),
+AddTask.defaultProps = {
+  onSubmit: () => {},
 };
 
-export default connect()(AddTask);
+AddTask.propTypes = {
+  onSubmit: PropTypes.func,
+};
+
+export default AddTask;

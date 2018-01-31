@@ -1,4 +1,4 @@
-import { Tasks } from './tasks';
+import { Tasks } from './collection';
 
 export const resolvers = {
   Query: {
