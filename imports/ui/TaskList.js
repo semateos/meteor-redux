@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { List } from 'material-ui';
-import { Task } from './Task';
+import TaskContainer from '/imports/containers/TaskContainer';
 
 const TaskList = ( { tasks, loading, ...rest }) => {
 
@@ -15,7 +15,7 @@ const TaskList = ( { tasks, loading, ...rest }) => {
 
   return (
     <List>
-      {tasks.map(item => <Task key={item._id} item={item} {...rest} />)}
+      {tasks.map(item => <TaskContainer key={item._id} item={item} {...rest} />)}
     </List>
   );
 };

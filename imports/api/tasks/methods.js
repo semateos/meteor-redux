@@ -1,51 +1,38 @@
-import { Meteor } from 'meteor/meteor';
-import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
+import { ValidatedActionMethod } from '/imports/lib/ValidatedActionMethod';
 import { Tasks } from './collection';
 
-export const insert = new ValidatedMethod({
+export const upsert = new ValidatedActionMethod({
 
-  name: 'tasks.insert',
-
-  validate: new SimpleSchema({
-    description: { type: String },
-    details: { type: String, optional: true },
-  }).validator(),
-
-  run({ description, details }) {
-    Tasks.insert({ description, details }, (err, res) => {
-      //do stuff here
-    });
-  },
-});
-
-export const update = new ValidatedMethod({
-
-  name: 'tasks.update',
+  name: 'tasks.upsert',
 
   validate: new SimpleSchema({
-    _id: { type: String },
+    _id: { type: String, optional: true },
     description: { type: String, optional: true },
     details: { type: String, optional: true },
     done: { type: Boolean, optional: true },
   }).validator(),
 
-  run({ description, details }) {
-    Tasks.insert({ description, details });
+  run({ _id, ...item }) {
+    Tasks.upsert({ _id }, { $set: item }, (err, res) => {
+      //do stuff here
+      console.log('tasks.upsert', err, res);
+    });
   },
 });
 
-/*
-Meteor.methods({
-  'tasks.insert'(task) {
-    console.log('tasks.insert', task);
-    const insertedTask = Tasks.insert(task);
-    console.log('insertedTask', insertedTask);
+export const remove = new ValidatedActionMethod({
+
+  name: 'tasks.remove',
+
+  validate: new SimpleSchema({
+    _id: { type: String },
+  }).validator(),
+
+  run({ _id }) {
+    Tasks.remove({ _id }, (err, res) => {
+      //do stuff here
+      console.log('tasks.remove', err, res);
+    });
   },
-  'tasks.remove'(taskId) {
-    Tasks.remove(taskId);
-  },
-  'tasks.setChecked'(taskId, setChecked) {
-    Tasks.update(taskId, { $set: { checked: setChecked } });
-  },
-});*/
+});

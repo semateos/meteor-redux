@@ -4,7 +4,7 @@ import pageSkip from './pageSkip';
 
 const rootReducer = combineReducers({
   visibilityFilter,
-  pageSkip
+  pageSkip,
 });
 
 export default rootReducer;

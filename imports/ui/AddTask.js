@@ -15,14 +15,10 @@ class AddTask extends React.Component {
     this.setState({ [name]: value });
 
   onSubmit = () => {
-    this.props.onSubmit({
-      description: this.state.description,
-      details: this.state.details,
-    });
+    this.props.onSubmit(this.state);
   }
 
   render() {
-
     return (
       <form className="form">
         <TextField
@@ -53,7 +49,9 @@ class AddTask extends React.Component {
 }
 
 AddTask.defaultProps = {
-  onSubmit: () => {},
+  onSubmit: () => {
+    console.log('AddTask onSubmit is default');
+  },
 };
 
 AddTask.propTypes = {

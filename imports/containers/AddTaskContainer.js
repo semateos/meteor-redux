@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import insertTask from '/imports/actions/insertTask';
+import { upsert } from '/imports/api/tasks/methods';
 import AddTask from '/imports/ui/AddTask';
 
 export default compose(
   connect(null, {
-    onSubmit: insertTask,
+    onSubmit: upsert.action,
   })
 )(AddTask);

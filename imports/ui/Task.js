@@ -1,44 +1,19 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { Checkbox } from 'material-ui';
-import { ListItem, ListItemText } from 'material-ui';
+import { Checkbox, ListItem, ListItemText } from 'material-ui';
 import { DeleteForever } from 'material-ui-icons';
 import { indigo } from 'material-ui/colors/index';
-import { compose } from 'recompose';
-import PropTypes from 'prop-types';
 
-const handleChange = (_id, flipTask) => () => {
-  flipTask({ variables: { _id } }).then(({ data: { flipTask: { _id } } }) => {
-    // TODO do something to alert the user that task is done
-  });
-};
-
-const handleClick = (_id, history) => () => {
-  history.push(`/edit/${_id}`);
-};
-
-const handleRemove = (_id, removeTask) => () => {
-  removeTask({ variables: { _id } });
-};
-
-const enhance = compose(withRouter);
-export const Task = enhance(({ item, history, removeTask, flipTask }) => (
+export default ({ item, onFlip, onItemClick, onRemove }) => (
   <ListItem>
-    <Checkbox checked={item.done} onChange={handleChange(item._id, flipTask)} />
+    <Checkbox checked={item.done === true} onChange={() => onFlip(item)} />
     <ListItemText
       primary={item.description}
       secondary={item.details}
-      onClick={handleClick(item._id, history)}
+      onClick={() => onItemClick(item)}
     />
     <DeleteForever
       style={{ color: indigo[700] }}
-      onClick={handleRemove(item._id, removeTask)}
+      onClick={() => onRemove(item)}
     />
   </ListItem>
-));
-
-Task.contextTypes = {
-  router: PropTypes.shape({
-    history: PropTypes.object.isRequired,
-  }),
-};
+);
