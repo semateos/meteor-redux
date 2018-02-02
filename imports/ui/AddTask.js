@@ -11,6 +11,21 @@ class AddTask extends React.Component {
     details: '',
   };
 
+  componentWillReceiveProps(nextProps) {
+
+    console.log('componentWillReceiveProps', nextProps);
+
+    const { task, loading } = nextProps;
+    if (!task || loading) {
+      return;
+    }
+    this.setState({
+      _id: task._id || null,
+      description: task.description || '',
+      details: task.details || '',
+    });
+  }
+
   onInputChange = ({ target: { name, value } }) =>
     this.setState({ [name]: value });
 

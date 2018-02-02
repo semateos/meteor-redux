@@ -12,7 +12,7 @@ const AddTaskContainer = withTracker(({ match, ...rest }) => {
   //const tasks = Tasks.find().fetch();
 
   return {
-    item: {description: 'yaaddda'}
+    task: {description: 'yaaddda'}
   };
 })(AddTask);
 
