@@ -4,12 +4,13 @@ import { Provider } from 'react-redux';
 import { render } from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import { BrowserRouter } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { DDPLink } from 'meteor/swydo:ddp-apollo';
+import { ConnectedRouter } from 'react-router-redux'
+import { withRouter } from 'react-router-dom'
 import { App } from '/imports/ui/App';
-import Store from '/imports/store/store';
+import { Store, history } from '/imports/store/store';
 
 const theme = createMuiTheme();
 
@@ -23,9 +24,9 @@ Meteor.startup(() => {
     <ApolloProvider client={client}>
       <MuiThemeProvider theme={theme}>
         <Provider store={Store}>
-          <BrowserRouter>
+          <ConnectedRouter history={history}>
             <App />
-          </BrowserRouter>
+          </ConnectedRouter>
         </Provider>
       </MuiThemeProvider>
     </ApolloProvider>,
