@@ -15,12 +15,14 @@ class AddTask extends React.Component {
     this.setState({ [name]: value });
 
   onSubmit = () => {
+    console.log(this.props);
     this.props.onSubmit(this.state);
   }
 
   render() {
     return (
       <form className="form">
+        <div>_id: {this.props.match.params._id}</div>
         <TextField
           name="description"
           label="Description"
@@ -56,6 +58,7 @@ AddTask.defaultProps = {
 
 AddTask.propTypes = {
   onSubmit: PropTypes.func,
+  _id: PropTypes.string,
 };
 
 export default AddTask;

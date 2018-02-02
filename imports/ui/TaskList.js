@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { List } from 'material-ui';
 import TaskContainer from '/imports/containers/TaskContainer';
 
-const TaskList = ( { tasks, loading, ...rest }) => {
+const TaskList = ({ tasks, loading, ...rest }) => {
 
   if (loading) {
     return <div>loading...</div>;
