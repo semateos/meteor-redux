@@ -7,13 +7,21 @@ import { withTracker } from 'meteor/react-meteor-data';
 import AddTask from '/imports/ui/AddTask';
 
 const AddTaskContainer = withTracker(({ match, ...rest }) => {
-  //const tasksHandle = Meteor.subscribe('tasks.getTasks');
-  //const loading = !tasksHandle.ready();
-  //const tasks = Tasks.find().fetch();
+
+  const tasksHandle = Meteor.subscribe('tasks.getTasks');
+  let loading = true;
+  let task = {};
+
+  if(match && match.params._id){
+    loading = !tasksHandle.ready();
+    task = Tasks.findOne({_id:match.params._id});
+  }
 
   return {
-    task: {description: 'yaaddda'}
+    loading,
+    task
   };
+
 })(AddTask);
 
 

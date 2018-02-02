@@ -10,11 +10,8 @@ class AddTask extends React.Component {
     description: '',
     details: '',
   };
-
+  
   componentWillReceiveProps(nextProps) {
-
-    console.log('componentWillReceiveProps', nextProps);
-
     const { task, loading } = nextProps;
     if (!task || loading) {
       return;
@@ -37,7 +34,6 @@ class AddTask extends React.Component {
   render() {
     return (
       <form className="form">
-        <div>_id: {this.props.match.params._id}</div>
         <TextField
           name="description"
           label="Description"
