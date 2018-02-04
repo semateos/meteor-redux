@@ -19,3 +19,5 @@ tmeasday:publish-counts
 mdg:validated-method
 react-meteor-data
 deanius:promise
+aldeed:collection2
+didericis:callpromise-mixin

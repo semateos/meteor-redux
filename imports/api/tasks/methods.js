@@ -8,7 +8,7 @@ export const upsert = new ValidatedActionMethod({
 
   validate: new SimpleSchema({
     _id: { type: String, optional: true },
-    description: { type: String },
+    description: { type: String, min: 1 },
     details: { type: String, optional: true },
   }).validator(),
 
@@ -27,7 +27,7 @@ export const setDone = new ValidatedActionMethod({
 
   validate: new SimpleSchema({
     _id: { type: String },
-    done: { type: Boolean, optional: true },
+    done: { type: Boolean },
   }).validator(),
 
   run({ _id, ...item }) {

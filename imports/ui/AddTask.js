@@ -10,7 +10,7 @@ class AddTask extends React.Component {
     description: '',
     details: '',
   };
-  
+
   componentWillReceiveProps(nextProps) {
     const { task, loading } = nextProps;
     if (!task || loading) {
@@ -27,7 +27,6 @@ class AddTask extends React.Component {
     this.setState({ [name]: value });
 
   onSubmit = () => {
-    console.log(this.props);
     this.props.onSubmit(this.state);
   }
 

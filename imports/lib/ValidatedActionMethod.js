@@ -1,18 +1,24 @@
-import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
+import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
 
-export const meteorActionCreator = (name) => {
-    return (...args) => {
+export const meteorActionCreator = function meteorActionCreator(methodOptions){
+    const newMethodOptions = methodOptions;
+
+    newMethodOptions.action = function action(args){
         return async (dispatch) => {
             dispatch({
-                type: `${name}/begin`,
+                type: `${methodOptions.name}/begin`,
             });
 
             try {
-                const payload = await Meteor.callPromise(name, ...args);
+                //this.validate(args);
+
+                //console.log('validation', valid, this.validate);
+
+                const payload = await this.callPromise(args);
 
                 dispatch({
-                    type: `${name}/success`,
+                    type: `${methodOptions.name}/success`,
                     payload,
                 });
 
@@ -20,19 +26,24 @@ export const meteorActionCreator = (name) => {
 
             } catch (err) {
                 dispatch({
-                    type: `${name}/fail`,
+                    type: `${methodOptions.name}/fail`,
                     error: true,
                     payload: err,
                 });
+
+                throw new Error(err);
             }
         };
     };
+
+    return newMethodOptions;
 };
 
 export class ValidatedActionMethod extends ValidatedMethod {
   constructor(props) {
     const newProps = props;
-    newProps.action = meteorActionCreator(props.name);
+    newProps.mixins = [CallPromiseMixin, meteorActionCreator];
+    //newProps.action = meteorActionCreator(props.name);
     super(newProps);
   }
 }
