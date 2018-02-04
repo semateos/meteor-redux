@@ -1,32 +1,30 @@
 import { Meteor } from 'meteor/meteor';
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
-import { upsert } from '/imports/api/tasks/methods';
+import Router from 'react-router-redux';
+import TaskMethods from '/imports/api/tasks/methods';
 import { Tasks } from '/imports/api/tasks/collection';
 import { withTracker } from 'meteor/react-meteor-data';
 import AddTask from '/imports/ui/AddTask';
 
-const AddTaskContainer = withTracker(({ match, ...rest }) => {
+const AddTaskContainer = withTracker(({ match }) => {
 
   const tasksHandle = Meteor.subscribe('tasks.getTasks');
   let loading = true;
   let task = {};
 
-  if(match && match.params._id){
+  if (match && match.params._id) {
     loading = !tasksHandle.ready();
-    task = Tasks.findOne({_id:match.params._id});
+    task = Tasks.findOne({ _id: match.params._id });
   }
 
   return {
     loading,
-    task
+    task,
   };
 
 })(AddTask);
 
-
-export default compose(
-  connect(null, {
-    onSubmit: upsert.action,
-  })
-)(AddTaskContainer);
+export default connect(null, {
+  onSubmit: (item) => (dispatch) =>
+    dispatch(TaskMethods.upsert.action(item)).then(() => dispatch(Router.push('/'))),
+})(AddTaskContainer);

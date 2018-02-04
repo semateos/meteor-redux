@@ -1,14 +1,10 @@
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
-import { upsert, remove } from '/imports/api/tasks/methods';
-import { push } from 'react-router-redux'
+import Router from 'react-router-redux';
 import Task from '/imports/ui/Task';
+import TaskMethods from '/imports/api/tasks/methods';
 
-
-export default compose(
-  connect(null, {
-    onRemove: (item) => remove.action({ _id: item._id }),
-    onFlip: (item) => upsert.action({ _id: item._id, done: !item.done }),
-    onItemClick: (item) => push(`/edit/${item._id}`),
-  })
-)(Task);
+export default connect(null, {
+  onRemove: (item) => TaskMethods.remove.action({ _id: item._id }),
+  onFlip: (item) => TaskMethods.setDone.action({ _id: item._id, done: !item.done }),
+  onItemClick: (item) => Router.push(`/edit/${item._id}`),
+})(Task);

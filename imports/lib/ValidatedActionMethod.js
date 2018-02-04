@@ -15,6 +15,9 @@ export const meteorActionCreator = (name) => {
                     type: `${name}/success`,
                     payload,
                 });
+
+                return payload;
+
             } catch (err) {
                 dispatch({
                     type: `${name}/fail`,

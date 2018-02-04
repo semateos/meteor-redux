@@ -7,8 +7,7 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { DDPLink } from 'meteor/swydo:ddp-apollo';
-import { ConnectedRouter } from 'react-router-redux'
-import { withRouter } from 'react-router-dom'
+import { ConnectedRouter } from 'react-router-redux';
 import { App } from '/imports/ui/App';
 import { Store, history } from '/imports/store/store';
 

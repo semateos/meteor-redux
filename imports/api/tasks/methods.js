@@ -8,16 +8,30 @@ export const upsert = new ValidatedActionMethod({
 
   validate: new SimpleSchema({
     _id: { type: String, optional: true },
-    description: { type: String, optional: true },
+    description: { type: String },
     details: { type: String, optional: true },
+  }).validator(),
+
+  run({ _id, ...item }) {
+    Tasks.upsert({ _id }, { $set: item });
+    /* Tasks.upsert({ _id }, { $set: item }, (err, res) => {
+      // do more stuff here
+      console.log('tasks.upsert', err, res);
+    }); */
+  },
+});
+
+export const setDone = new ValidatedActionMethod({
+
+  name: 'tasks.setDone',
+
+  validate: new SimpleSchema({
+    _id: { type: String },
     done: { type: Boolean, optional: true },
   }).validator(),
 
   run({ _id, ...item }) {
-    Tasks.upsert({ _id }, { $set: item }, (err, res) => {
-      //do stuff here
-      console.log('tasks.upsert', err, res);
-    });
+    Tasks.update({ _id }, { $set: item });
   },
 });
 
@@ -30,9 +44,6 @@ export const remove = new ValidatedActionMethod({
   }).validator(),
 
   run({ _id }) {
-    Tasks.remove({ _id }, (err, res) => {
-      //do stuff here
-      console.log('tasks.remove', err, res);
-    });
+    Tasks.remove({ _id });
   },
 });
