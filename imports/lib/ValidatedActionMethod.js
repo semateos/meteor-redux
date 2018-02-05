@@ -38,7 +38,6 @@ export class ValidatedActionMethod extends ValidatedMethod {
   constructor(props) {
     const newProps = props;
     newProps.mixins = [CallPromiseMixin, meteorActionCreator];
-    //newProps.action = meteorActionCreator(props.name);
     super(newProps);
   }
 }
