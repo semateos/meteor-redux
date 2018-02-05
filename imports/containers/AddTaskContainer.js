@@ -5,6 +5,7 @@ import TaskMethods from '/imports/api/tasks/methods';
 import { Tasks } from '/imports/api/tasks/collection';
 import { withTracker } from 'meteor/react-meteor-data';
 import AddTask from '/imports/ui/AddTask';
+import { addToast } from '/imports/actions/toasts';
 
 const AddTaskContainer = withTracker(({ match }) => {
 
@@ -26,5 +27,7 @@ const AddTaskContainer = withTracker(({ match }) => {
 
 export default connect(null, {
   onSubmit: (item) => (dispatch) =>
-    dispatch(TaskMethods.upsert.action(item)).then(() => dispatch(Router.push('/'))),
+    dispatch(TaskMethods.upsert.action(item))
+      .then(() => dispatch(Router.push('/')))
+      .catch((err) => dispatch(addToast({ err }))),
 })(AddTaskContainer);

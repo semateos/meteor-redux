@@ -11,10 +11,6 @@ export const meteorActionCreator = function meteorActionCreator(methodOptions){
             });
 
             try {
-                //this.validate(args);
-
-                //console.log('validation', valid, this.validate);
-
                 const payload = await this.callPromise(args);
 
                 dispatch({
@@ -23,7 +19,6 @@ export const meteorActionCreator = function meteorActionCreator(methodOptions){
                 });
 
                 return payload;
-
             } catch (err) {
                 dispatch({
                     type: `${methodOptions.name}/fail`,
