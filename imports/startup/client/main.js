@@ -8,8 +8,11 @@ import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { DDPLink } from 'meteor/swydo:ddp-apollo';
 import { ConnectedRouter } from 'react-router-redux';
+import { initializeMeteorOffline } from '/imports/lib/meteorReactOffline';
 import { App } from '/imports/ui/App';
 import { Store, history } from '/imports/store/store';
+
+initializeMeteorOffline();
 
 const theme = createMuiTheme();
 
