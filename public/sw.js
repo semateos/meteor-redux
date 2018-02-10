@@ -7,7 +7,9 @@ self.addEventListener('install', () => {
 
     // Add codeFTW logo to cache storage
     caches.open(CACHE_STATIC_FILES).then(cache => {
-        fetch(requestImgCodeFTW).then(response => cache.put(requestImgCodeFTW, response));
+        fetch(requestImgCodeFTW).then(response => cache.put(requestImgCodeFTW, response)).catch(err => {
+          console.error(err);
+        });
     });
 });
 

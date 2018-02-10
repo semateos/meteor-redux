@@ -1,25 +1,20 @@
 import { Meteor } from 'meteor/meteor';
+import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Tasks } from '/imports/api/tasks/collection';
-import { connect } from 'react-redux';
+import { getTasks } from '/imports/actions/tasks';
+import connect from 'react-redux-connect-lifecycle'
 import Tasklist from '/imports/ui/TaskList';
-
-
-const TaskListContainer = withTracker(() => {
-  const tasksHandle = Meteor.subscribe('tasks.getTasks');
-  const loading = !tasksHandle.ready();
-  const tasks = Tasks.find().fetch();
-
-  return {
-    loading,
-    //tasks,
-  };
-})(Tasklist);
 
 const mapStateToProps = state => {
   return {
-    tasks : Object.values(state.collections.tasks)
-  }
-}
+    raw: state.collections.tasks,
+    tasks: (state.collections.tasks) ? Object.values(state.collections.tasks) : [],
+  };
+};
 
-export default connect(mapStateToProps, {})(TaskListContainer);
+const mapDispatchToProps = ({
+  onComponentDidMount: () => (getTasks()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tasklist);
