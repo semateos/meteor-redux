@@ -11,8 +11,18 @@ class AddTask extends React.Component {
     details: '',
   };
 
+  shouldComponentUpdate(nextProps, nextState){
+
+    console.log('testing shouldComponentUpdate', nextProps, nextState);
+
+    return true;
+  }
+
   componentWillReceiveProps(nextProps) {
-    const { task, loading } = nextProps;
+    const { task, loading, location } = nextProps;
+
+    console.log('testing componentWillReceiveProps', task, loading );
+
     if (!task || loading) {
       return;
     }
@@ -33,6 +43,7 @@ class AddTask extends React.Component {
   render() {
     return (
       <form className="form">
+        <div>{this.props.location}</div>
         <TextField
           name="description"
           label="Description"
@@ -69,6 +80,8 @@ AddTask.defaultProps = {
 AddTask.propTypes = {
   onSubmit: PropTypes.func,
   _id: PropTypes.string,
+  task: PropTypes.object,
+  location: PropTypes.string,
 };
 
 export default AddTask;
