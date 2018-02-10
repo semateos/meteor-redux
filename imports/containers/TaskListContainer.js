@@ -2,10 +2,10 @@ import { getTasks } from '/imports/actions/tasks';
 import connect from 'react-redux-connect-lifecycle';
 import Tasklist from '/imports/ui/TaskList';
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ tasks }) => {
   return {
-    raw: state.collections.tasks,
-    tasks: (state.collections.tasks) ? Object.values(state.collections.tasks) : [],
+    loading: !tasks.ready,
+    tasks: tasks.item,
   };
 };
 

@@ -5,11 +5,13 @@ import PropTypes from 'prop-types';
 
 class AddTask extends React.Component {
 
-  state = {
+  defaultState = {
     _id: null,
     description: '',
     details: '',
   };
+
+  state = this.defaultState;
 
   componentWillMount() {
     this.updateState(this.props.task);
@@ -17,10 +19,16 @@ class AddTask extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { task, loading } = nextProps;
+
+    if (loading) return;
+
     this.updateState(task);
   }
 
   updateState(task) {
+
+    console.log('updateState', task);
+
     if(task){
       this.setState({
         _id: task._id,
@@ -28,11 +36,7 @@ class AddTask extends React.Component {
         details: task.details,
       });
     }else{
-      this.setState({
-        _id: '',
-        description: '',
-        details: '',
-      });
+      this.setState(this.defaultState);
     }
   }
 

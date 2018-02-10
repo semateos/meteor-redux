@@ -1,16 +1,17 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import { collections } from './collections';
 import visibilityFilter from './visibilityFilter';
 import pageSkip from './pageSkip';
 import toasts from './toasts';
+import { taskList, currentTask } from './tasks';
 
 const rootReducer = combineReducers({
-  collections,
+  router: routerReducer,
   visibilityFilter,
   pageSkip,
   toasts,
-  router: routerReducer,
+  tasks: taskList,
+  currentTask,
 });
 
 export default rootReducer;
