@@ -9,17 +9,13 @@ import { addToast } from '/imports/actions/toasts';
 import { getTask } from '/imports/actions/tasks';
 
 const mapStateToProps = (state, { match }) => {
-  console.log('testing mapStateToProps', match.params._id, state.collections.tasks[match.params._id]);
   return {
-    location: state.router.location.pathname,
-    task: state.collections.tasks[match.params._id],
-    _id: match.params._id,
+    task: (state.collections.tasks) ? state.collections.tasks[match.params._id] : {},
   };
 };
 
 const mapDispatchToProps = ({
   onComponentDidMount: (props) => (dispatch) => {
-    console.log('testing onComponentDidMount', props);
     dispatch(getTask(props.match.params._id));
   },
   onSubmit: (item) => (dispatch) =>
@@ -27,6 +23,5 @@ const mapDispatchToProps = ({
       .then(() => dispatch(Router.push('/')))
       .catch((err) => dispatch(addToast({ err }))),
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTask);

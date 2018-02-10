@@ -11,30 +11,39 @@ class AddTask extends React.Component {
     details: '',
   };
 
-  shouldComponentUpdate(nextProps, nextState){
-
-    console.log('testing shouldComponentUpdate', nextProps, nextState);
-
-    return true;
+  componentWillMount() {
+    this.updateState(this.props.task);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { task, loading, location } = nextProps;
-
-    console.log('testing componentWillReceiveProps', task, loading );
-
-    if (!task || loading) {
-      return;
-    }
-    this.setState({
-      _id: task._id || null,
-      description: task.description || '',
-      details: task.details || '',
-    });
+    const { task, loading } = nextProps;
+    this.updateState(task);
   }
 
-  onInputChange = ({ target: { name, value } }) =>
-    this.setState({ [name]: value });
+  updateState(task) {
+    if(task){
+      this.setState({
+        _id: task._id,
+        description: task.description,
+        details: task.details,
+      });
+    }else{
+      this.setState({
+        _id: '',
+        description: '',
+        details: '',
+      });
+    }
+  }
+
+  onInputChange = ({ target: { name, value } }) => {
+
+    const newState = this.state;
+
+    newState[name] = value;
+
+    this.setState(newState);
+  }
 
   onSubmit = () => {
     this.props.onSubmit(this.state);
@@ -43,7 +52,7 @@ class AddTask extends React.Component {
   render() {
     return (
       <form className="form">
-        <div>{this.props.location}</div>
+
         <TextField
           name="description"
           label="Description"
@@ -79,9 +88,7 @@ AddTask.defaultProps = {
 
 AddTask.propTypes = {
   onSubmit: PropTypes.func,
-  _id: PropTypes.string,
   task: PropTypes.object,
-  location: PropTypes.string,
 };
 
 export default AddTask;
