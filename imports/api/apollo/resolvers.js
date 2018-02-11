@@ -1,7 +1,10 @@
-import { Tasks } from './collection';
+import { Tasks } from '/imports/api/tasks/collection';
 
 export const resolvers = {
   Query: {
+    say(root, args, context) {
+      return 'hello world';
+    },
     async tasks(root, args, context) {
       return Tasks.find().fetch();
     },

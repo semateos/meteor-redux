@@ -1,5 +1,7 @@
 export const typeDefs = `
+
 type Query {
+  say: String
   tasks: [Task]
   task(_id: ID!): Task
 }

@@ -14,7 +14,9 @@ import { Store, history } from '/imports/store/store';
 const theme = createMuiTheme();
 
 const client = new ApolloClient({
-  link: new DDPLink(),
+  link: new DDPLink({
+    connection: Meteor.connection,
+  }),
   cache: new InMemoryCache(),
 });
 
