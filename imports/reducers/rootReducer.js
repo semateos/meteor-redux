@@ -1,17 +1,17 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
+import { reducers as subscriptionReducers } from '/imports/lib/MeteorReduxSubscription';
 import visibilityFilter from './visibilityFilter';
 import pageSkip from './pageSkip';
 import toasts from './toasts';
-import { taskList, currentTask } from './tasks';
 
-const rootReducer = combineReducers({
+const reducers = Object.assign({
   router: routerReducer,
   visibilityFilter,
   pageSkip,
   toasts,
-  tasks: taskList,
-  currentTask,
-});
+}, subscriptionReducers);
+
+const rootReducer = combineReducers(reducers);
 
 export default rootReducer;

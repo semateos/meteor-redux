@@ -39,7 +39,7 @@ export class App extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography type="headline" color="inherit">
-              Meteor React Latest
+              Meteor Redux
             </Typography>
           </Toolbar>
         </AppBar>

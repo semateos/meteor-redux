@@ -1,10 +1,10 @@
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
 
-export const meteorActionCreator = function(methodOptions){
+export const meteorActionCreator = function(methodOptions) {
     const newMethodOptions = methodOptions;
 
-    newMethodOptions.action = function(args){
+    newMethodOptions.action = function(args) {
         return async (dispatch) => {
             dispatch({
                 type: `${methodOptions.name}/begin`,

@@ -17,25 +17,19 @@ class AddTask extends React.Component {
     this.updateState(this.props.task);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { task, loading } = nextProps;
-
+  componentWillReceiveProps({ task, loading }) {
     if (loading) return;
-
     this.updateState(task);
   }
 
   updateState(task) {
-
-    console.log('updateState', task);
-
-    if(task){
+    if (task) {
       this.setState({
         _id: task._id,
         description: task.description,
         details: task.details,
       });
-    }else{
+    } else {
       this.setState(this.defaultState);
     }
   }
@@ -75,10 +69,7 @@ class AddTask extends React.Component {
           className="form-action"
           raised
           color="primary"
-          onClick={this.onSubmit}
-        >
-          <Add /> Task
-        </Button>
+          onClick={this.onSubmit}>Save</Button>
       </form>
     );
   }

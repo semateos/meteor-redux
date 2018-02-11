@@ -3,17 +3,17 @@ import Router from 'react-router-redux';
 import TaskMethods from '/imports/api/tasks/methods';
 import AddTask from '/imports/ui/AddTask';
 import { addToast } from '/imports/actions/toasts';
-import { getTask } from '/imports/actions/tasks';
+import { getTask } from '/imports/api/tasks/subscriptions';
 
-const mapStateToProps = ({ currentTask, router }) => {
+const mapStateToProps = ({ task, router }) => {
   return {
-    loading: !currentTask.ready,
-    task: (router.location.pathname === '/add') ? null : currentTask.item,
+    loading: !task.ready,
+    task: (router.location.pathname === '/add') ? null : task.item,
   };
 };
 
 const mapDispatchToProps = ({
-  onComponentDidMount: ({ match }) => (getTask(match.params._id)),
+  onComponentDidMount: ({ match }) => (getTask.start({ _id: match.params._id })),
   onSubmit: (item) => (dispatch) =>
     dispatch(TaskMethods.upsert.action(item))
       .then(() => dispatch(Router.push('/')))

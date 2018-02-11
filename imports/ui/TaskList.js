@@ -5,7 +5,7 @@ import TaskContainer from '/imports/containers/TaskContainer';
 
 const TaskList = ({ tasks, loading, ...rest }) => {
 
-  if (tasks.length === 0) {
+  if (!tasks || tasks.length === 0) {
     return <List></List>;
   }
 
