@@ -6,17 +6,26 @@ type Query {
   task(_id: ID!): Task
 }
 
-input AddTaskInput {
+input UpsertTaskInput {
   _id: ID
   description: String!
   details: String
   done: Boolean
 }
 
+input SetTaskDoneInput {
+  _id: ID!
+  done: Boolean!
+}
+
+input RemoveTaskDoneInput {
+  _id: ID!
+}
+
 type Mutation {
-  upsertTask(task: AddTaskInput!): Task
-  setTaskDone(_id: ID!, done: Boolean): Task
-  removeTask(_id: ID!): Task
+  upsertTask(input: UpsertTaskInput!): Task
+  setTaskDone(input: SetTaskDoneInput!): Task
+  removeTask(input: RemoveTaskDoneInput!): Task
 }
 
 type Task {

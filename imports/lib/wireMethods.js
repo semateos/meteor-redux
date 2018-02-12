@@ -9,7 +9,7 @@ export const graphqlResolvers = {};
 wireMethod takes an object description of a method and creates:
   - a meteor method with validator via ValidatedActionMethod
   - which in turn creates a redux actionCreator
-  - a graphql resolver for the same method
+  - and a graphql resolver for the same method
 */
 export const wireMethod = (methodOptions) => {
   const newMethodOptions = methodOptions;
@@ -20,8 +20,8 @@ export const wireMethod = (methodOptions) => {
 
   const actionMethod = new ValidatedActionMethod(newMethodOptions);
 
-  const resolver = async (root, { _id, done }) => {
-    return actionMethod.callPromise({ _id, done });
+  const resolver = async (root, { input }) => {
+    return actionMethod.callPromise(input);
   };
 
   graphqlResolvers[newMethodOptions.name] = resolver;
