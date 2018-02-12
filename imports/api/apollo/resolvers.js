@@ -1,10 +1,14 @@
 import '/imports/api/';
 import { Tasks } from '/imports/api/tasks/collection';
-import { graphqlResolvers } from '/imports/lib/wireMethods';
+import { graphQLResolvers } from '/imports/lib/wireMethods';
 
 const Query = {
-  say() {
-    return 'hello world';
+  say(root, { query }) {
+    console.log(query);
+    if(query){
+      return query.something;
+    }
+    return 'hello!';
   },
   async tasks() {
     return Tasks.find().fetch();
@@ -22,6 +26,6 @@ const mutations = {
   */
 };
 
-const Mutation = Object.assign(mutations, graphqlResolvers);
+const Mutation = Object.assign(mutations, graphQLResolvers);
 
 export const resolvers = { Query, Mutation };

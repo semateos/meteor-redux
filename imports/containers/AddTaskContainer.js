@@ -1,9 +1,9 @@
 import connect from 'react-redux-connect-lifecycle';
 import Router from 'react-router-redux';
 import TaskMethods from '/imports/api/tasks/methods';
+import TaskSubcriptions from '/imports/api/tasks/subscriptions';
 import AddTask from '/imports/ui/AddTask';
 import { addToast } from '/imports/actions/toasts';
-import { getTask } from '/imports/api/tasks/subscriptions';
 
 const mapStateToProps = ({ task, router }) => {
   return {
@@ -13,7 +13,7 @@ const mapStateToProps = ({ task, router }) => {
 };
 
 const mapDispatchToProps = ({
-  onComponentDidMount: ({ match }) => (getTask.start({ _id: match.params._id })),
+  onComponentDidMount: ({ match }) => (TaskSubcriptions.task.start({ _id: match.params._id })),
   onSubmit: (item) => (dispatch) =>
     dispatch(TaskMethods.upsertTask.action(item))
       .then(() => dispatch(Router.push('/')))

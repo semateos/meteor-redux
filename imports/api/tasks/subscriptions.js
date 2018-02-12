@@ -1,19 +1,34 @@
-import { MeteorReduxSubscription } from '/imports/lib/MeteorReduxSubscription';
+import { wireSubscriptions } from '/imports/lib/wireMethods';
 import { Tasks } from '/imports/api/tasks/collection';
 
 // creates actions and reducers for meteor subcriptions
-// key: name of subscription in the store
-// get: fetch function to execute
+// name: name of subscription in the store
+// run: fetch function to execute
 // subscription: name matching a meteor publish
 
-export const getTasks = new MeteorReduxSubscription({
-  key: 'tasks',
-  get: (params) => Tasks.find(params).fetch(),
-  subscription: 'tasks.getTasks',
-});
+const subscriptions = [
+  {
+    name: 'tasks',
+    returns: Array,
+    params: {
+      _id: { type: String, optional: true },
+      description: { type: String, optional: true },
+      details: { type: String, optional: true },
+      done: { type: Boolean, optional: true },
+    },
+    run: (params) => Tasks.find(params).fetch(),
+    subscription: 'tasks.getTasks',
+  },
+  {
+    name: 'task',
+    returns: 'Task',
+    params: {
+      _id: { type: String, optional: true },
+      description: { type: String, optional: true },
+    },
+    run: (params) => Tasks.findOne(params),
+    subscription: 'tasks.getTasks',
+  }
+];
 
-export const getTask = new MeteorReduxSubscription({
-  key: 'task',
-  get: (params) => Tasks.findOne(params),
-  subscription: 'tasks.getTasks',
-});
+export default wireSubscriptions(subscriptions);

@@ -1,4 +1,4 @@
-import { getTasks } from '/imports/api/tasks/subscriptions';
+import TaskSubcriptions from '/imports/api/tasks/subscriptions';
 import connect from 'react-redux-connect-lifecycle';
 import Tasklist from '/imports/ui/TaskList';
 
@@ -10,7 +10,7 @@ const mapStateToProps = ({ tasks }) => {
 };
 
 const mapDispatchToProps = ({
-  onComponentDidMount: () => (getTasks.start()),
+  onComponentDidMount: () => (TaskSubcriptions.tasks.start()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tasklist);

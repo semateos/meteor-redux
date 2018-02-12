@@ -13,12 +13,12 @@ export class MeteorReduxSubscription {
   constructor(props) {
     this.start = (params) =>
       startSubscription({
-        key: props.key,
-        get: () => (params) ? props.get(params) : props.get({}),
+        key: props.name,
+        get: () => (params) ? props.run(params) : props.run({}),
         subscribe: () => Meteor.subscribe(props.subscription),
       });
 
-    const actionStub = props.key.toUpperCase();
+    const actionStub = props.name.toUpperCase();
 
     this.reducer = (state = initialState, action) => {
       switch (action.type) {
@@ -45,6 +45,6 @@ export class MeteorReduxSubscription {
       }
     };
 
-    reducers[props.key] = this.reducer;
+    reducers[props.name] = this.reducer;
   }
 }

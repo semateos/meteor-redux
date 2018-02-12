@@ -5,24 +5,23 @@ const methods = [
 
   { name: 'upsertTask',
     returns: 'Task',
-
-    validate: {
+    params: {
       _id: { type: String, optional: true },
       description: { type: String, min: 1 },
       details: { type: String, optional: true },
       done: { type: Boolean, optional: true },
     },
 
-    run: ({ _id, ...item }) => {
-      Tasks.upsert({ _id }, { $set: item });
-      return Tasks.findOne({ _id });
+    run: async ({ _id, ...item }) => {
+      const result = await Tasks.upsert({ _id }, { $set: item });
+      const id = (result.insertedId) ? result.insertedId : _id;
+      return Tasks.findOne({ _id:id });
     },
   },
 
   { name: 'setTaskDone',
     returns: 'Task',
-
-    validate: {
+    params: {
       _id: { type: String },
       done: { type: Boolean },
     },
@@ -35,13 +34,13 @@ const methods = [
 
   { name: 'removeTask',
     returns: Boolean,
-
-    validate: {
+    params: {
       _id: { type: String },
     },
 
     run: ({ _id }) => {
-      Tasks.remove({ _id });
+      const res = Tasks.remove({ _id });
+      return (res);
     },
   },
 
