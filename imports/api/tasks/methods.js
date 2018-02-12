@@ -1,49 +1,50 @@
-import SimpleSchema from 'simpl-schema';
-import { ValidatedActionMethod } from '/imports/lib/ValidatedActionMethod';
+import { wireMethods } from '/imports/lib/wireMethods';
 import { Tasks } from './collection';
 
-export const upsert = new ValidatedActionMethod({
+const methods = [
 
-  name: 'tasks.upsert',
+  { name: 'upsertTask',
+    returns: 'Task',
 
-  validate: new SimpleSchema({
-    _id: { type: String, optional: true },
-    description: { type: String, min: 1 },
-    details: { type: String, optional: true },
-  }).validator(),
+    validate: {
+      _id: { type: String, optional: true },
+      description: { type: String, min: 1 },
+      details: { type: String, optional: true },
+      done: { type: Boolean, optional: true },
+    },
 
-  run({ _id, ...item }) {
-    Tasks.upsert({ _id }, { $set: item });
-    /* Tasks.upsert({ _id }, { $set: item }, (err, res) => {
-      // do more stuff here
-      console.log('tasks.upsert', err, res);
-    }); */
+    run: ({ _id, ...item }) => {
+      Tasks.upsert({ _id }, { $set: item });
+      return Tasks.findOne({ _id });
+    },
   },
-});
 
-export const setDone = new ValidatedActionMethod({
+  { name: 'setTaskDone',
+    returns: 'Task',
 
-  name: 'tasks.setDone',
+    validate: {
+      _id: { type: String },
+      done: { type: Boolean },
+    },
 
-  validate: new SimpleSchema({
-    _id: { type: String },
-    done: { type: Boolean },
-  }).validator(),
-
-  run({ _id, ...item }) {
-    Tasks.update({ _id }, { $set: item });
+    run: ({ _id, ...item }) => {
+      Tasks.update({ _id }, { $set: item });
+      return Tasks.findOne({ _id });
+    },
   },
-});
 
-export const remove = new ValidatedActionMethod({
+  { name: 'removeTask',
+    returns: Boolean,
 
-  name: 'tasks.remove',
+    validate: {
+      _id: { type: String },
+    },
 
-  validate: new SimpleSchema({
-    _id: { type: String },
-  }).validator(),
-
-  run({ _id }) {
-    Tasks.remove({ _id });
+    run: ({ _id }) => {
+      Tasks.remove({ _id });
+    },
   },
-});
+
+];
+
+export default wireMethods(methods);

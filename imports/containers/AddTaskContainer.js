@@ -15,7 +15,7 @@ const mapStateToProps = ({ task, router }) => {
 const mapDispatchToProps = ({
   onComponentDidMount: ({ match }) => (getTask.start({ _id: match.params._id })),
   onSubmit: (item) => (dispatch) =>
-    dispatch(TaskMethods.upsert.action(item))
+    dispatch(TaskMethods.upsertTask.action(item))
       .then(() => dispatch(Router.push('/')))
       .catch((err) => dispatch(addToast({ err }))),
 });

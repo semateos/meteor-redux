@@ -7,13 +7,15 @@ type Query {
 }
 
 input AddTaskInput {
+  _id: ID
   description: String!
   details: String
+  done: Boolean
 }
 
 type Mutation {
-  addTask(task: AddTaskInput!): Task
-  flipTask(_id: ID!): Task
+  upsertTask(task: AddTaskInput!): Task
+  setTaskDone(_id: ID!, done: Boolean): Task
   removeTask(_id: ID!): Task
 }
 
