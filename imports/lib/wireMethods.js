@@ -13,6 +13,7 @@ export const allSubscriptions = {};
 
 export const graphQLMutationResolvers = {};
 export const graphQLSubscriptionResolvers = {};
+export const graphQLTypes = {};
 export const graphQLInputTypes = {};
 export const graphQLQueries = {};
 export const graphQLMutations = {};
@@ -39,6 +40,29 @@ export const makeGraphQLParam = (key, schema) => {
   return ret;
 };
 
+const makeGraphQlObject = (type, name, schema) => {
+  let params = '';
+  _.forEach(schema, (schemaItem, key) => {
+    const paramSchema = makeGraphQLParam(key, schemaItem);
+    params += `\t${paramSchema}\n`;
+  });
+  const output = `${type} ${name} {\n${params}}`;
+
+  return output;
+};
+
+export const makeGraphQLCollectionType = (name, schema) => {
+  const newSchema = schema;
+
+  if (!newSchema._id) {
+    newSchema._id = { type: String, optional: true };
+  }
+
+  const type = makeGraphQlObject('type', name, newSchema);
+  graphQLTypes[name] = type;
+  return type;
+};
+
 /*
 makeGraphQLInputSchema takes an object description of a method and creates:
   - a string containing a piece of graphQL schema describing the input
@@ -50,21 +74,8 @@ makeGraphQLInputSchema takes an object description of a method and creates:
     }
 */
 export const makeGraphQLInputSchema = (methodOptions) => {
-
   const inputName = _.upperFirst(methodOptions.name) + 'Input';
-
-  let params = '';
-
-  _.forEach(methodOptions.params, (schema, key) => {
-
-    const paramSchema = makeGraphQLParam(key, schema);
-
-    params += '\t' + paramSchema + '\n';
-  });
-
-  const output = `input ${inputName} {\n${params}}`;
-
-  return output;
+  return makeGraphQlObject('input', inputName, methodOptions.params);
 };
 
 /*
@@ -87,6 +98,7 @@ export const makeGraphQLQuerySchema = (methodOptions) => {
 
   return `${methodOptions.name}(where: JSON): ${returnType}`;
 };
+
 
 
 /*

@@ -11,7 +11,7 @@ const queries = {
 const Query = Object.assign(queries, graphQLSubscriptionResolvers);
 
 const mutations = {
-  /*
+  /* e.g.
   async setDone(root, { _id, done }) {
     return setTaskDone.callPromise({ _id, done })
   },

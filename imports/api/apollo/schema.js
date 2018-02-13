@@ -1,8 +1,14 @@
 
 import '/imports/api/';
 import _ from 'lodash';
-import { graphQLInputTypes, graphQLMutations, graphQLQueries } from '/imports/lib/wireMethods';
+import { graphQLTypes, graphQLInputTypes, graphQLMutations, graphQLQueries } from '/imports/lib/wireMethods';
 
+// compose types from auto-wired collections
+let types = '';
+
+_.forEach(graphQLTypes, (type) => {
+  types += `${type}\n\n`;
+});
 
 // compose input types from auto-wired methods
 let inputTypes = '';
@@ -29,22 +35,17 @@ export const typeDefs = `
 
 scalar JSON
 
+${types}
+
+${inputTypes}
+
 type Query {
   ping: String
   ${queries}
 }
 
-${inputTypes}
-
 type Mutation {
   ${mutations}
-}
-
-type Task {
-  _id: ID!
-  description: String!
-  details: String
-  done: Boolean
 }
 `;
 

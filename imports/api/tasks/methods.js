@@ -14,7 +14,7 @@ const methods = [
     run: async ({ _id, ...item }) => {
       const result = await Tasks.upsert({ _id }, { $set: item });
       const id = (result.insertedId) ? result.insertedId : _id;
-      return Tasks.findOne({ _id:id });
+      return Tasks.findOne({ _id: id });
     },
   },
   {

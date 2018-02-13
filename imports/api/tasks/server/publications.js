@@ -31,4 +31,4 @@ const getTaskPublication = function (filter, pageSkip = 0) {
   });
 };
 
-Meteor.publish('tasks.getTasks', getTaskPublication);
+Meteor.publish('getTasks', getTaskPublication);
