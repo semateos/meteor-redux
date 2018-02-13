@@ -31,8 +31,6 @@ export class MeteorReduxSubscription {
           // this conditional is attempting to not overwrite offline persisted state
           // with an empty set while the subscription is starting up but not ready
           // so it only applies the payload to store if it's non-empty
-
-          console.log(`${actionStub}_SUBSCRIPTION_CHANGED`, action.payload);
           return (state.ready || (action.payload && (action.payload.length || action.payload._id))) ?
             { ...state, item: action.payload, stopped: false }
             : state;

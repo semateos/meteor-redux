@@ -22,7 +22,7 @@ const getTaskPublication = function (filter, pageSkip = 0) {
       break;
   }
 
-  Counts.publish(this, 'TaskCount', Tasks.find(query));
+  Counts.publish(this, 'tasksCount', Tasks.find(query));
 
   return Tasks.find(query, {
     fields: taskPubFields,

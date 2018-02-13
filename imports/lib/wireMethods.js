@@ -3,14 +3,11 @@ import _ from 'lodash';
 import { ValidatedActionMethod } from '/imports/lib/ValidatedActionMethod';
 import { MeteorReduxSubscription } from '/imports/lib/MeteorReduxSubscription';
 
-// creates actions and reducers for meteor subcriptions
-// key: name of subscription in the store
-// get: fetch function to execute
-// subscription: name matching a meteor publish
-
+// collections of methods and subscriptions that have been wired
 export const allMethods = {};
 export const allSubscriptions = {};
 
+// collections of graphQL schema from wired collections
 export const graphQLMutationResolvers = {};
 export const graphQLSubscriptionResolvers = {};
 export const graphQLTypes = {};
@@ -24,17 +21,14 @@ makeGraphQLParam takes a key and piece of SimpleSchema and returns
   - e.g. 'description: String!'
 */
 export const makeGraphQLParam = (key, schema) => {
-
   let ret = `${key}: `;
-
-  if(key == '_id'){
+  if (key === '_id') {
     ret += 'ID';
-  }else{
+  } else {
     ret += schema.type.name;
   }
-
-  if(!schema.optional){
-    ret += '!'
+  if (!schema.optional) {
+    ret += '!';
   }
 
   return ret;
@@ -84,22 +78,15 @@ makeGraphQLFunctionSchema takes an object description of a method and creates:
   - e.g. 'upsertTask(input: UpsertTaskInput!): Task'
 */
 export const makeGraphQLFunctionSchema = (methodOptions) => {
-
   const inputName = _.upperFirst(methodOptions.name) + 'Input';
-
   const returnType = (typeof methodOptions.returns === 'string') ? methodOptions.returns : methodOptions.returns.name;
-
   return `${methodOptions.name}(input: ${inputName}!): ${returnType}`;
 };
 
 export const makeGraphQLQuerySchema = (methodOptions) => {
-
   const returnType = (typeof methodOptions.returns === 'string') ? methodOptions.returns : methodOptions.returns.name;
-
   return `${methodOptions.name}(where: JSON): ${returnType}`;
 };
-
-
 
 /*
 wireMethod takes an object description of a method and creates:
@@ -117,9 +104,7 @@ export const wireMethod = (methodOptions) => {
   const actionMethod = new ValidatedActionMethod(newMethodOptions);
 
   // write the graphQL resolver for this method:
-  const graphQLResolver = async (root, { input }) => {
-    return actionMethod.callPromise(input);
-  };
+  const graphQLResolver = async (root, { input }) => actionMethod.callPromise(input);
 
   const graphQLInputSchema = makeGraphQLInputSchema(newMethodOptions);
   const graphQLMutation = makeGraphQLFunctionSchema(newMethodOptions);

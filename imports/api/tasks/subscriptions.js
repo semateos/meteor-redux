@@ -11,14 +11,12 @@ const subscriptions = [
     name: 'tasks',
     returns: '[Task]',
     subscription: 'getTasks',
-
     run: (params) => Tasks.find(params).fetch(),
   },
   {
     name: 'task',
     returns: 'Task',
     subscription: 'getTasks',
-
     run: (params) => Tasks.findOne(params),
   },
 ];
