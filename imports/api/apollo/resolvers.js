@@ -1,31 +1,24 @@
+import GraphQLJSON from 'graphql-type-json';
 import '/imports/api/';
 import { Tasks } from '/imports/api/tasks/collection';
-import { graphQLResolvers } from '/imports/lib/wireMethods';
+import { graphQLMutationResolvers, graphQLSubscriptionResolvers } from '/imports/lib/wireMethods';
 
-const Query = {
-  say(root, { query }) {
-    console.log(query);
-    if(query){
-      return query.something;
-    }
-    return 'hello!';
-  },
-  async tasks() {
-    return Tasks.find().fetch();
-  },
-  async task(root, { _id }) {
-    return Tasks.findOne(_id);
+const queries = {
+  ping() {
+    return 'pong!';
   },
 };
+
+const Query = Object.assign(queries, graphQLSubscriptionResolvers);
 
 const mutations = {
   /*
   async setDone(root, { _id, done }) {
-    return setTaskDone.callPromise({ _id, done });
+    return setTaskDone.callPromise({ _id, done })
   },
   */
 };
 
-const Mutation = Object.assign(mutations, graphQLResolvers);
+const Mutation = Object.assign(mutations, graphQLMutationResolvers);
 
-export const resolvers = { Query, Mutation };
+export const resolvers = { JSON: GraphQLJSON, Query, Mutation };

@@ -9,26 +9,18 @@ import { Tasks } from '/imports/api/tasks/collection';
 const subscriptions = [
   {
     name: 'tasks',
-    returns: Array,
-    params: {
-      _id: { type: String, optional: true },
-      description: { type: String, optional: true },
-      details: { type: String, optional: true },
-      done: { type: Boolean, optional: true },
-    },
-    run: (params) => Tasks.find(params).fetch(),
+    returns: '[Task]',
     subscription: 'tasks.getTasks',
+
+    run: (params) => Tasks.find(params).fetch(),
   },
   {
     name: 'task',
     returns: 'Task',
-    params: {
-      _id: { type: String, optional: true },
-      description: { type: String, optional: true },
-    },
-    run: (params) => Tasks.findOne(params),
     subscription: 'tasks.getTasks',
-  }
+
+    run: (params) => Tasks.findOne(params),
+  },
 ];
 
 export default wireSubscriptions(subscriptions);

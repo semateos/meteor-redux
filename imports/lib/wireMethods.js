@@ -10,7 +10,9 @@ import { MeteorReduxSubscription } from '/imports/lib/MeteorReduxSubscription';
 
 export const allMethods = {};
 export const allSubscriptions = {};
-export const graphQLResolvers = {};
+
+export const graphQLMutationResolvers = {};
+export const graphQLSubscriptionResolvers = {};
 export const graphQLInputTypes = {};
 export const graphQLQueries = {};
 export const graphQLMutations = {};
@@ -77,7 +79,15 @@ export const makeGraphQLFunctionSchema = (methodOptions) => {
   const returnType = (typeof methodOptions.returns === 'string') ? methodOptions.returns : methodOptions.returns.name;
 
   return `${methodOptions.name}(input: ${inputName}!): ${returnType}`;
-}
+};
+
+export const makeGraphQLQuerySchema = (methodOptions) => {
+
+  const returnType = (typeof methodOptions.returns === 'string') ? methodOptions.returns : methodOptions.returns.name;
+
+  return `${methodOptions.name}(where: JSON): ${returnType}`;
+};
+
 
 /*
 wireMethod takes an object description of a method and creates:
@@ -102,7 +112,7 @@ export const wireMethod = (methodOptions) => {
   const graphQLInputSchema = makeGraphQLInputSchema(newMethodOptions);
   const graphQLMutation = makeGraphQLFunctionSchema(newMethodOptions);
 
-  graphQLResolvers[newMethodOptions.name] = graphQLResolver;
+  graphQLMutationResolvers[newMethodOptions.name] = graphQLResolver;
   graphQLInputTypes[newMethodOptions.name] = graphQLInputSchema;
   graphQLMutations[newMethodOptions.name] = graphQLMutation;
   allMethods[newMethodOptions.name] = actionMethod;
@@ -126,12 +136,15 @@ export const wireMethods = (methods) => {
 
 export const wireSubscription = (subcriptionOptions) => {
   const subscription = new MeteorReduxSubscription(subcriptionOptions);
+  const graphQLQuery = makeGraphQLQuerySchema(subcriptionOptions);
 
-  const graphQLInputSchema = makeGraphQLInputSchema(subcriptionOptions);
-  const graphQLQuery = makeGraphQLFunctionSchema(subcriptionOptions);
+  // write the graphQL resolver for this method:
+  const graphQLResolver = async (root, { where }) => {
+    return (where) ? subcriptionOptions.run(where) : subcriptionOptions.run();
+  };
 
+  graphQLSubscriptionResolvers[subcriptionOptions.name] = graphQLResolver;
   graphQLQueries[subcriptionOptions.name] = graphQLQuery;
-  graphQLInputTypes[subcriptionOptions.name] = graphQLInputSchema;
   allSubscriptions[subcriptionOptions.name] = subscription;
 
   return subscription;

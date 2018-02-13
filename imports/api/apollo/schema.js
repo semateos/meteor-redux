@@ -1,38 +1,43 @@
+
 import '/imports/api/';
 import _ from 'lodash';
-import { graphQLInputTypes, graphQLMutations } from '/imports/lib/wireMethods';
+import { graphQLInputTypes, graphQLMutations, graphQLQueries } from '/imports/lib/wireMethods';
 
 
 // compose input types from auto-wired methods
 let inputTypes = '';
 
 _.forEach(graphQLInputTypes, (inputType) => {
-  inputTypes += inputType + '\n\n';
+  inputTypes += `${inputType}\n\n`;
+});
+
+// compose queries
+let queries = '';
+
+_.forEach(graphQLQueries, (query) => {
+  queries += `\t${query}\n`;
 });
 
 // compose mutations from auto-wired methods
 let mutations = '';
 
 _.forEach(graphQLMutations, (mutation) => {
-  mutations += '\t' + mutation + '\n';
+  mutations += `\t${mutation}\n`;
 });
 
 export const typeDefs = `
 
-input SayQuery {
-  something: String
-}
+scalar JSON
 
 type Query {
-  say(query: SayQuery): String
-  tasks: [Task]
-  task(_id: ID!): Task
+  ping: String
+  ${queries}
 }
 
 ${inputTypes}
 
 type Mutation {
-${mutations}
+  ${mutations}
 }
 
 type Task {
@@ -43,4 +48,4 @@ type Task {
 }
 `;
 
-//console.log(typeDefs);
+// console.log(typeDefs);
