@@ -1,6 +1,5 @@
 import GraphQLJSON from 'graphql-type-json';
 import '/imports/api/';
-import { Tasks } from '/imports/api/tasks/collection';
 import { graphQLMutationResolvers, graphQLSubscriptionResolvers } from '/imports/lib/wireMethods';
 
 const queries = {
