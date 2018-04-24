@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import Reboot from 'material-ui/Reboot';
+import CssBaseline from 'material-ui/CssBaseline';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
@@ -28,7 +28,7 @@ export class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <Reboot />
+        <CssBaseline />
         <AppBar>
           <Toolbar>
             <IconButton
