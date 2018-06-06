@@ -3,7 +3,7 @@ import { withStyles } from 'material-ui/styles';
 import BottomNavigation, {
   BottomNavigationAction,
 } from 'material-ui/BottomNavigation';
-import { Add, ViewList } from 'material-ui-icons';
+import { Add, ViewList, Person } from 'material-ui-icons';
 import { Paper } from 'material-ui';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -38,6 +38,12 @@ class NavigationBarComponent extends React.Component {
           showLabels
           className={classes.root}
         >
+          <BottomNavigationAction
+            label="Login"
+            icon={<Person />}
+            component={Link}
+            to="/login"
+          />
           <BottomNavigationAction
             label="Tasks"
             icon={<ViewList />}

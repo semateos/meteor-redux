@@ -34,3 +34,5 @@ Meteor.startup(() => {
     document.getElementById('app')
   );
 });
+
+export default client;

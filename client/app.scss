@@ -41,3 +41,14 @@ body {
 .form-action {
   margin: 5px;
 }
+
+.form-container {
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+}
+
+.error {
+  color: #f50057;
+  margin: 15px 0;
+}

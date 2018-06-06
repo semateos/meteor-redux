@@ -25,6 +25,19 @@ const methods = [
       done: { type: Boolean },
     },
     run: ({ _id, ...item }) => {
+
+      if (!this.userId) {
+        // Throw errors with a specific error code
+        console.error('Must be logged in to click that button!');
+        // throw new Meteor.Error('Lists.methods.makePrivate.notLoggedIn',
+        //   'Must be logged in to make private lists.');
+      }
+
+      const task = Tasks.findOne(_id);
+
+      console.log('task', task);
+      console.log('this.userId', this.userId);
+
       Tasks.update({ _id }, { $set: item });
       return Tasks.findOne({ _id });
     },
