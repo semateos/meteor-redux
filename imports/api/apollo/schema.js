@@ -39,6 +39,11 @@ ${types}
 
 ${inputTypes}
 
+input UserProfileInput {
+  _id: ID
+  name: String!
+}
+
 type Query {
   ping: String
   ${queries}
@@ -49,4 +54,4 @@ type Mutation {
 }
 `;
 
-// console.log(typeDefs);
+// console.log('typeDefs', typeDefs);

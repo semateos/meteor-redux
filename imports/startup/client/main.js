@@ -4,12 +4,12 @@ import { Provider } from 'react-redux';
 import { render } from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { DDPLink } from 'meteor/swydo:ddp-apollo';
 import { ConnectedRouter } from 'react-router-redux';
 import { App } from '/imports/ui/App';
 import { Store, history } from '/imports/store/store';
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { DDPLink } from 'meteor/swydo:ddp-apollo';
 
 const theme = createMuiTheme();
 

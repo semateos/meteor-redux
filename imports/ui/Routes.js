@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import TaskListContainer from '/imports/containers/TaskListContainer';
 import AddTaskContainer from '/imports/containers/AddTaskContainer';
-import Login from '/imports/ui/Login';
+import Login from '/imports/containers/Login';
 
 const ConnectedSwitch = connect(state => ({
   location: state.location,

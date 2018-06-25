@@ -1,14 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, TextField, Tabs, Tab } from 'material-ui';
+import BcryptJs from 'bcryptjs';
 import { createUser, loginWithPassword } from 'meteor-apollo-accounts'
-import ApolloClient from '/imports/startup/client/main';
+import AppolloClient from '/imports/startup/client/main';
+
+import ApolloAccounts from 'meteor/nicolaslopezj:apollo-accounts';
+import { initAccounts } from 'meteor/nicolaslopezj:apollo-accounts';
+
+console.log('ApolloAccounts', ApolloAccounts);
+console.log('initAccounts', initAccounts);
 
 export default class Login extends React.Component {
 
-  // static propTypes = {
-  //   onSubmit: PropTypes.func.isRequired
-  // }
+  static propTypes = {
+    signup: PropTypes.func.isRequired
+  }
 
   defaultState = {
     email: '',
@@ -27,7 +34,6 @@ export default class Login extends React.Component {
   }
 
   onSubmit = () => {
-
     const { email, password, confirmPassword } = this.state;
 
     this.setState({
@@ -41,10 +47,14 @@ export default class Login extends React.Component {
         });
       }
 
-      // const response = await loginWithPassword({ email, password }, ApolloClient);
-      const response = await createUser({ username: email, email, password }, ApolloClient);
-      console.log('response', response);
-      // this.props.onSubmit({ email, password });
+      const profile = {
+        name: email,
+      };
+
+      const response = await createUser({ username: email, email, password, profile }, AppolloClient);
+      // const response = await this.props.signup({ email, password });
+      console.log('signup response', response);
+      return response;
     });
   }
 
@@ -99,7 +109,7 @@ export default class Login extends React.Component {
           )}
           <Button
             className="form-action"
-            raised
+            raised="true"
             color="primary"
             onClick={this.onSubmit}>{selectedTabIndex === 0 ? 'Login' : 'Signup'}</Button>
         </form>
