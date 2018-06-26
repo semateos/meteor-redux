@@ -1,0 +1,7 @@
+{
+  "bigroomstudios:meteor-apollo-accounts": {
+    "git": "git@github.com:bigroomstudios/meteor-apollo-accounts.git",
+    "branch": "master",
+    "path": "meteor-server"
+  }
+}

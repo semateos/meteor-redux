@@ -7,6 +7,7 @@ autoupdate@1.4.0
 babel-compiler@7.0.6
 babel-runtime@1.2.2
 base64@1.0.10
+bigroomstudios:meteor-apollo-accounts@3.2.2
 binary-heap@1.0.10
 blaze-tools@1.0.10
 boilerplate-generator@1.4.0

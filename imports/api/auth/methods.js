@@ -1,6 +1,5 @@
 import { wireMethods } from '/imports/lib/wireMethods';
-import BcryptJs from 'bcryptjs';
-import { createUser, loginWithPassword } from 'meteor-apollo-accounts'
+import Accounts from 'meteor-apollo-accounts-client'
 // import ApolloClient from '/imports/startup/both/apollo-client';
 
 const methods = [
@@ -15,8 +14,7 @@ const methods = [
       const profile = {
         name: email,
       };
-      const hashedPassword = BcryptJs.hash(password, 10);
-      const response = await createUser({ username: email, email, password: hashedPassword, profile });
+      const response = await Accounts.createUser({ username: email, email, password, profile });
       console.log('response', response);
       return true;
     },
