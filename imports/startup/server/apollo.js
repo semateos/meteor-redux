@@ -3,7 +3,7 @@ import { makeExecutableSchema } from 'graphql-tools';
 import { typeDefs } from '/imports/api/apollo/schema';
 import { resolvers } from '/imports/api/apollo/resolvers';
 import { setup } from 'meteor/swydo:ddp-apollo';
-import { initAccounts } from 'meteor/bigroomstudios:meteor-apollo-accounts';
+import { initAccounts } from 'meteor/yarn:meteor-apollo-accounts';
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
