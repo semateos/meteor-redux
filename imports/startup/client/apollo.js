@@ -21,18 +21,20 @@ const ApolloDDPLink = new DDPLink({
   connection: Meteor.connection,
 });
 
-const logoutLink = onError(({ networkError }) => {
-  if (networkError.statusCode === 401) {
-    // TODO implement logout()
-    console.warn('LOGOUT');
-    // logout();
-  }
-});
+// const logoutLink = onError(({ networkError }) => {
+//   if (networkError.statusCode === 401) {
+//     // TODO implement logout()
+//     console.warn('LOGOUT');
+//     // logout();
+//   }
+// });
 
 const client = new ApolloClient({
   // link: logoutLink.concat(authMiddleware, ApolloDDPLink),
-  link: logoutLink.concat(ApolloDDPLink),
+  // link: logoutLink.concat(ApolloDDPLink),
+  link: ApolloDDPLink,
   cache: new InMemoryCache(),
+  // fetchPolicy: 'no-cache',
 });
 
 export default client;

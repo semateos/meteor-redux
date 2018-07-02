@@ -26,24 +26,29 @@ export default class Login extends React.Component {
   }
 
   onSubmit = () => {
-    const { email, password, confirmPassword } = this.state;
+    const { email, password, confirmPassword, selectedTabIndex } = this.state;
 
     this.setState({
       formErr: null,
     },
     async () => {
-      if (this.state.selectedTabIndex === 1 &&
+      if (selectedTabIndex === 1 &&
           password !== confirmPassword) {
         return this.setState({
           formErr: new Error('Passwords don\'t match'),
         });
       }
 
+      if (selectedTabIndex === 0) {
+        const loginResponse = await Accounts.loginWithPassword({ email, password, profile });
+        return loginResponse;
+      }
+
       const profile = {
         name: email,
       };
 
-      const response = await Accounts.createUser({ username: email, email, password, profile });
+      const response = await Accounts.createUser({ email, password, profile });
       // const response = await this.props.signup({ email, password });
       console.log('signup response', response);
       return response;

@@ -39,11 +39,6 @@ ${types}
 
 ${inputTypes}
 
-input UserProfileInput {
-  _id: ID
-  name: String!
-}
-
 type Query {
   ping: String
   ${queries}
@@ -51,6 +46,21 @@ type Query {
 
 type Mutation {
   ${mutations}
+}
+
+type Email {
+  address: String
+  verified: Boolean
+}
+
+type UserProfile {
+  name: String
+}
+
+type User {
+  _id: String
+  emails: [Email]
+  profile: UserProfile
 }
 `;
 
