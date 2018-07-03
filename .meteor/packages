@@ -5,6 +5,7 @@
 # but you can also edit it by hand.
 
 meteor-base@1.3.0             # Packages every Meteor app needs to have
+mongo@1.4.2
 mobile-experience@1.0.5       # Packages for a great mobile UX
 static-html             # Define static page content in .html files
 
@@ -21,7 +22,6 @@ deanius:promise
 aldeed:collection2
 didericis:callpromise-mixin
 apollo
-yarn:meteor-apollo-accounts
-accounts-password@1.5.0
 underscore
-mongo@1.4.2
+yarn:meteor-apollo-accounts
+yarn:accounts-password
