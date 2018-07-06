@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { wireSubscriptions } from '/imports/lib/wireMethods';
 import { Tasks } from '/imports/api/tasks/collection';
 
@@ -11,7 +12,12 @@ const subscriptions = [
     name: 'tasks',
     returns: '[Task]',
     subscription: 'getTasks',
-    run: (params) => Tasks.find(params).fetch(),
+    run: (params) => {
+
+      console.log('params', params);
+      console.log('Meteor.userId()', Meteor.userId());
+      return Tasks.find(params).fetch();
+    },
   },
   {
     name: 'task',

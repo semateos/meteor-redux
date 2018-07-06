@@ -10,9 +10,7 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import rootReducer from '../reducers/rootReducer';
 
 export const history = createHistory();
-
 const logger = createLogger();
-
 const routerMiddle = routerMiddleware(history);
 
 const { sources, subscriptions } = createReactiveMiddlewares(Tracker);

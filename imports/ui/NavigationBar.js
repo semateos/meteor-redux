@@ -17,24 +17,35 @@ const styles = {
 };
 
 class NavigationBarComponent extends React.Component {
-  state = {
-    value: 0,
-  };
 
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
+  static propTypes = {
+    location: PropTypes.object.isRequired,
+  }
 
   render() {
-    const { classes } = this.props;
-    const { value } = this.state;
-    const { router: { history } } = this.context;
+    const { classes, location } = this.props;
+
+    let value = 0;
+
+    switch (location.pathname) {
+      case '/':
+        value = 0;
+        break;
+      case '/tasks':
+        value = 1;
+        break;
+      case '/add':
+        value = 2;
+        break;
+      default:
+        value = 0;
+        break;
+    }
 
     return (
       <Paper elevation={10}>
         <BottomNavigation
           value={value}
-          onChange={this.handleChange}
           showLabels
           className={classes.root}
         >
@@ -42,13 +53,13 @@ class NavigationBarComponent extends React.Component {
             label="Login"
             icon={<Person />}
             component={Link}
-            to="/login"
+            to="/"
           />
           <BottomNavigationAction
             label="Tasks"
             icon={<ViewList />}
             component={Link}
-            to="/"
+            to="/tasks"
           />
           <BottomNavigationAction
             label="Add"
@@ -61,11 +72,5 @@ class NavigationBarComponent extends React.Component {
     );
   }
 }
-
-NavigationBarComponent.contextTypes = {
-  router: PropTypes.shape({
-    history: PropTypes.object.isRequired,
-  }),
-};
 
 export const NavigationBar = withStyles(styles)(NavigationBarComponent);

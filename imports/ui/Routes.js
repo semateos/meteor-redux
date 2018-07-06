@@ -11,8 +11,8 @@ const ConnectedSwitch = connect(state => ({
 
 export const Routes = () => (
   <ConnectedSwitch>
-    <Route exact path="/" component={TaskListContainer} />
-    <Route path="/login" component={Login} />
+    <Route exact path="/" component={Login} />
+    <Route path="/tasks" component={TaskListContainer} />
     <Route path="/add" component={AddTaskContainer} />
     <Route path="/edit/:_id" component={AddTaskContainer} />
   </ConnectedSwitch>

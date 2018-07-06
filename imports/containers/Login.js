@@ -1,16 +1,14 @@
 import connect from 'react-redux-connect-lifecycle';
-import AuthMethods from '/imports/api/auth/methods';
+import { signup, login } from '/imports/actions/auth';
 import Login from '/imports/ui/Login';
-import { addToast } from '/imports/actions/toasts';
 
-const mapStateToProps = () => {
-  return {};
-};
+const mapStateToProps = (state) => ({
+  location: state.router.location,
+});
 
 const mapDispatchToProps = ({
-  signup: (creds) => (dispatch) =>
-    dispatch(AuthMethods.signup.action(creds))
-      .catch((err) => dispatch(addToast({ err }))),
+  signup,
+  login,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

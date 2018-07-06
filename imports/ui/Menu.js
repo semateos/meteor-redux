@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
-import { Home, List as ListIcon } from 'material-ui-icons';
+import { Home, List as ListIcon, AccountCircle } from 'material-ui-icons';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 
 export class Menu extends React.Component {
@@ -17,7 +17,7 @@ export class Menu extends React.Component {
               <ListItemText primary="Home" />
             </ListItem>
           </Link>
-          <Link to="/" style={{ textDecoration: 'none' }}>
+          <Link to="/tasks" style={{ textDecoration: 'none' }}>
             <ListItem button onClick={this.props.onSelectMenu}>
               <ListItemIcon>
                 <ListIcon />
@@ -25,6 +25,16 @@ export class Menu extends React.Component {
               <ListItemText primary="Tasks" />
             </ListItem>
           </Link>
+          <ListItem button onClick={() => {
+
+            this.props.onSelectMenu();
+            this.props.logout();
+          }}>
+            <ListItemIcon>
+              <AccountCircle />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItem>
         </List>
       </Drawer>
     );

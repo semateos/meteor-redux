@@ -6,7 +6,8 @@ import Accounts from 'meteor-apollo-accounts-client';
 export default class Login extends React.Component {
 
   static propTypes = {
-    signup: PropTypes.func.isRequired
+    signup: PropTypes.func.isRequired,
+    login: PropTypes.func.isRequired,
   }
 
   defaultState = {
@@ -26,6 +27,8 @@ export default class Login extends React.Component {
   }
 
   onSubmit = () => {
+
+    const { signup, login } = this.props;
     const { email, password, confirmPassword, selectedTabIndex } = this.state;
 
     this.setState({
@@ -39,28 +42,11 @@ export default class Login extends React.Component {
         });
       }
 
-      const profile = {
-        name: email,
-      };
-
       if (selectedTabIndex === 0) {
-        const loginResponse = await Accounts.loginWithPassword({ email, password, profile });
-        return loginResponse;
+        return login({ email, password });
       }
 
-      return Accounts.createUser({ email, password, profile })
-      .then((response) => {
-
-        console.log('signup response', response);
-
-        return response;
-      })
-      .catch((err) => {
-
-        return this.setState({
-          formErr: err,
-        });
-      });
+      return signup({ email, password });
     });
   }
 
@@ -72,6 +58,7 @@ export default class Login extends React.Component {
   }
 
   render() {
+
     const { formErr, selectedTabIndex } = this.state;
 
     return (

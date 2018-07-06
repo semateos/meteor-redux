@@ -5,12 +5,20 @@ import { render } from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { ConnectedRouter } from 'react-router-redux';
+
+import Accounts from 'meteor-apollo-accounts-client';
+import Initializers from '/imports/initializers/index.js';
+
 import { App } from '/imports/ui/App';
 import { Store, history } from '/imports/store/store';
 import ApolloClient from './apollo';
-import Accounts from 'meteor-apollo-accounts-client';
 
 Accounts.initWithClient(ApolloClient);
+
+// Allow time for store rehydration, which happens in store/store
+setTimeout(() => {
+  Initializers.run(Store);
+});
 
 const theme = createMuiTheme();
 

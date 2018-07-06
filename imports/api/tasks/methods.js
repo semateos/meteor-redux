@@ -13,7 +13,15 @@ const methods = [
       done: { type: Boolean, optional: true },
     },
     run: async ({ _id, ...item }) => {
-      const result = await Tasks.upsert({ _id }, { $set: item });
+
+      const userId = Meteor.userId();
+      console.log('userId', userId);
+
+      const itemWithOwner = { ...item, userId };
+
+      console.log('itemWithOwner', itemWithOwner);
+
+      const result = await Tasks.upsert({ _id }, { $set: itemWithOwner });
       const id = (result.insertedId) ? result.insertedId : _id;
       return Tasks.findOne({ _id: id });
     },

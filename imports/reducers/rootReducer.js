@@ -4,12 +4,14 @@ import { reducers as subscriptionReducers } from '/imports/lib/MeteorReduxSubscr
 import visibilityFilter from './visibilityFilter';
 import pageSkip from './pageSkip';
 import toasts from './toasts';
+import auth from './auth';
 
 const reducers = Object.assign({
   router: routerReducer,
   visibilityFilter,
   pageSkip,
   toasts,
+  auth,
 }, subscriptionReducers);
 
 const rootReducer = combineReducers(reducers);
