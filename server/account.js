@@ -11,10 +11,6 @@ Accounts.urls.verifyEmail = (token) => {
 
 Accounts.onCreateUser((options, usr) => {
 
-  console.trace();
-  console.log('Accounts.onCreateUser');
-  console.log('usr', usr);
-
   const user = { ...usr };
 
   user.profile = options.profile ? options.profile : { firstname: '', lastname: '', name: '' };
@@ -31,12 +27,10 @@ Accounts.onCreateUser((options, usr) => {
     user.emails = [{ address: user.services.facebook.email, verified: true }];
   }
 
-  console.log('user', user);
-
   if ((user.emails.length !== -1) && (!user.emails[0].verified)) {
-    // Meteor.setTimeout(function() {
-      // Accounts.sendVerificationEmail(user._id);
-    // }, 2 * 1000);
+    Meteor.setTimeout(function() {
+      Accounts.sendVerificationEmail(user._id);
+    }, 2 * 1000);
   }
 
   return user;

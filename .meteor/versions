@@ -1,5 +1,6 @@
 accounts-base@1.4.2
 accounts-oauth@1.1.15
+accounts-password@1.5.1
 aldeed:collection2@3.0.0
 allow-deny@1.1.0
 apollo@2.0.0
@@ -90,5 +91,4 @@ underscore@1.0.10
 url@1.2.0
 webapp@1.6.2
 webapp-hashing@1.0.9
-yarn:accounts-password@1.5.2
 yarn:meteor-apollo-accounts@3.2.2

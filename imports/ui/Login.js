@@ -39,19 +39,28 @@ export default class Login extends React.Component {
         });
       }
 
+      const profile = {
+        name: email,
+      };
+
       if (selectedTabIndex === 0) {
         const loginResponse = await Accounts.loginWithPassword({ email, password, profile });
         return loginResponse;
       }
 
-      const profile = {
-        name: email,
-      };
+      return Accounts.createUser({ email, password, profile })
+      .then((response) => {
 
-      const response = await Accounts.createUser({ email, password, profile });
-      // const response = await this.props.signup({ email, password });
-      console.log('signup response', response);
-      return response;
+        console.log('signup response', response);
+
+        return response;
+      })
+      .catch((err) => {
+
+        return this.setState({
+          formErr: err,
+        });
+      });
     });
   }
 

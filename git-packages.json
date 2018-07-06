@@ -2,9 +2,5 @@
   "yarn:meteor-apollo-accounts": {
     "git": "git@github.com:bigroomstudios/meteor-apollo-accounts-server.git",
     "branch": "wip"
-  },
-  "yarn:accounts-password": {
-    "git": "git@github.com:bigroomstudios/yarn-accounts-password.git",
-    "branch": "master"
   }
 }

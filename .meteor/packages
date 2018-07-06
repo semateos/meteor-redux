@@ -24,4 +24,5 @@ didericis:callpromise-mixin
 apollo
 underscore@1.0.10
 yarn:meteor-apollo-accounts
-yarn:accounts-password
+email
+accounts-password
