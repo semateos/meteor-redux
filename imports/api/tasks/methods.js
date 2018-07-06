@@ -13,17 +13,11 @@ const methods = [
       done: { type: Boolean, optional: true },
     },
     run: async ({ _id, ...item }) => {
-
       const userId = Meteor.userId();
-      console.log('userId', userId);
-
       const itemWithOwner = { ...item, userId };
-
-      console.log('itemWithOwner', itemWithOwner);
-
-      const result = await Tasks.upsert({ _id }, { $set: itemWithOwner });
+      const result = await Tasks.upsert({ _id, userId }, { $set: itemWithOwner });
       const id = (result.insertedId) ? result.insertedId : _id;
-      return Tasks.findOne({ _id: id });
+      return Tasks.findOne({ _id: id, userId });
     },
   },
   {
@@ -34,17 +28,9 @@ const methods = [
       done: { type: Boolean },
     },
     run: ({ _id, ...item }) => {
-
       const userId = Meteor.userId();
-
-      if (!userId) {
-        // Throw errors with a specific error code
-        throw new Meteor.Error('Lists.methods.makePrivate.notLoggedIn',
-          'Must be logged in to make private lists.');
-      }
-
-      Tasks.update({ _id }, { $set: item });
-      return Tasks.findOne({ _id });
+      Tasks.update({ _id, userId }, { $set: item });
+      return Tasks.findOne({ _id, userId });
     },
   },
   {
@@ -54,8 +40,8 @@ const methods = [
       _id: { type: String },
     },
     run: ({ _id }) => {
-      const res = Tasks.remove({ _id });
-      return (res);
+      const userId = Meteor.userId();
+      return Tasks.remove({ _id, userId });
     },
   },
 ];

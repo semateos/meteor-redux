@@ -13,17 +13,18 @@ const subscriptions = [
     returns: '[Task]',
     subscription: 'getTasks',
     run: (params) => {
-
-      console.log('params', params);
-      console.log('Meteor.userId()', Meteor.userId());
-      return Tasks.find(params).fetch();
+      const userId = Meteor.userId();
+      return Tasks.find({ ...params, userId }).fetch();
     },
   },
   {
     name: 'task',
     returns: 'Task',
     subscription: 'getTasks',
-    run: (params) => Tasks.findOne(params),
+    run: (params) => {
+      const userId = Meteor.userId();
+      return Tasks.findOne({ ...params, userId });
+    },
   },
 ];
 

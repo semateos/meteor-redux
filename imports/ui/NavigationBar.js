@@ -25,7 +25,7 @@ class NavigationBarComponent extends React.Component {
   render() {
     const { classes, location } = this.props;
 
-    let value = 0;
+    let value;
 
     switch (location.pathname) {
       case '/':
@@ -36,9 +36,6 @@ class NavigationBarComponent extends React.Component {
         break;
       case '/add':
         value = 2;
-        break;
-      default:
-        value = 0;
         break;
     }
 

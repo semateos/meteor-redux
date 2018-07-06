@@ -112,13 +112,11 @@ export function logout() {
     dispatch(exports.logoutPending(true));
     return Accounts.logout()
       .then((response) => {
-        console.log('response', response);
         dispatch(exports.logoutPending(false));
         internals.flashSuccessThenInit(dispatch, 'logout', exports.logoutSuccess, response);
         return dispatch(Router.push('/'));
       })
       .catch((err) => {
-        console.log('err', err);
         dispatch(exports.logoutPending(false));
         return dispatch(exports.logoutFail(err));
       });

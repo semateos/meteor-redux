@@ -6,10 +6,11 @@ const taskPubFields = {
   description: true,
   details: true,
   done: true,
+  userId: true,
 };
 
 const getTaskPublication = function (filter, pageSkip = 0) {
-  const query = {};
+  const query = { userId: this.userId };
 
   switch (filter) {
     case 'SHOW_COMPLETED':

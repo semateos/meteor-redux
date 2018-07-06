@@ -16,7 +16,7 @@ const mapDispatchToProps = ({
   onComponentDidMount: ({ match }) => (TaskSubcriptions.task.start({ _id: match.params._id })),
   onSubmit: (item) => (dispatch) =>
     dispatch(TaskMethods.upsertTask.action(item))
-      .then(() => dispatch(Router.push('/')))
+      .then(() => dispatch(Router.push('/tasks')))
       .catch((err) => dispatch(addToast({ err }))),
 });
 
