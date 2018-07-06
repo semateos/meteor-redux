@@ -4,61 +4,59 @@ import { Button, TextField, Tabs, Tab } from 'material-ui';
 import Accounts from 'meteor-apollo-accounts-client';
 
 export default class Login extends React.Component {
-
   static propTypes = {
     signup: PropTypes.func.isRequired,
     login: PropTypes.func.isRequired,
-  }
+  };
 
   defaultState = {
     email: '',
     password: '',
     confirmPassword: '',
     selectedTabIndex: 0,
-    formErr: null
+    formErr: null,
   };
 
   state = this.defaultState;
 
   onInputChange = ({ target: { name, value } }) => {
     this.setState({
-      [name]: value
+      [name]: value,
     });
-  }
+  };
 
   onSubmit = () => {
-
     const { signup, login } = this.props;
     const { email, password, confirmPassword, selectedTabIndex } = this.state;
 
-    this.setState({
-      formErr: null,
-    },
-    async () => {
-      if (selectedTabIndex === 1 &&
-          password !== confirmPassword) {
-        return this.setState({
-          formErr: new Error('Passwords don\'t match'),
-        });
-      }
+    this.setState(
+      {
+        formErr: null,
+      },
+      async () => {
+        if (selectedTabIndex === 1 && password !== confirmPassword) {
+          return this.setState({
+            formErr: new Error("Passwords don't match"),
+          });
+        }
 
-      if (selectedTabIndex === 0) {
-        return login({ email, password });
-      }
+        if (selectedTabIndex === 0) {
+          return login({ email, password });
+        }
 
-      return signup({ email, password });
-    });
-  }
+        return signup({ email, password });
+      }
+    );
+  };
 
   onTabsChange = (evt, value) => {
     this.setState({
       selectedTabIndex: value,
       formErr: null,
     });
-  }
+  };
 
   render() {
-
     const { formErr, selectedTabIndex } = this.state;
 
     return (
@@ -97,14 +95,15 @@ export default class Login extends React.Component {
               required
             />
           )}
-          {formErr && (
-            <div className="error">{formErr.message}</div>
-          )}
+          {formErr && <div className="error">{formErr.message}</div>}
           <Button
             className="form-action"
             raised="true"
             color="primary"
-            onClick={this.onSubmit}>{selectedTabIndex === 0 ? 'Login' : 'Signup'}</Button>
+            onClick={this.onSubmit}
+          >
+            {selectedTabIndex === 0 ? 'Login' : 'Signup'}
+          </Button>
         </form>
       </div>
     );

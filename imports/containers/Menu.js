@@ -4,8 +4,8 @@ import { Menu } from '/imports/ui/Menu';
 
 const mapStateToProps = () => ({});
 
-const mapDispatchToProps = ({
+const mapDispatchToProps = {
   logout,
-});
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu);

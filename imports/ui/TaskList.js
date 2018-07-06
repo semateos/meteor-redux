@@ -4,14 +4,15 @@ import { List } from 'material-ui';
 import TaskContainer from '/imports/containers/TaskContainer';
 
 const TaskList = ({ tasks, loading, ...rest }) => {
-
   if (!tasks || tasks.length === 0) {
-    return <List></List>;
+    return <List />;
   }
 
   return (
     <List>
-      {tasks.map(item => <TaskContainer key={item._id} item={item} {...rest} />)}
+      {tasks.map(item => (
+        <TaskContainer key={item._id} item={item} {...rest} />
+      ))}
     </List>
   );
 };

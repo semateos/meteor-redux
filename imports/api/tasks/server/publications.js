@@ -9,7 +9,7 @@ const taskPubFields = {
   userId: true,
 };
 
-const getTaskPublication = function (filter, pageSkip = 0) {
+const getTaskPublication = function(filter, pageSkip = 0) {
   const query = { userId: this.userId };
 
   switch (filter) {

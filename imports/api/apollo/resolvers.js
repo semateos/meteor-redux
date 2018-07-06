@@ -1,6 +1,9 @@
 import GraphQLJSON from 'graphql-type-json';
 import '/imports/api/';
-import { graphQLMutationResolvers, graphQLSubscriptionResolvers } from '/imports/lib/wireMethods';
+import {
+  graphQLMutationResolvers,
+  graphQLSubscriptionResolvers,
+} from '/imports/lib/wireMethods';
 
 const queries = {
   ping() {

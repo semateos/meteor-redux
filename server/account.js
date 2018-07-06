@@ -1,19 +1,18 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
-Accounts.urls.resetPassword = (token) => {
-  return Meteor.absoluteUrl(`recover-password/${token}`);
-};
+Accounts.urls.resetPassword = token =>
+  Meteor.absoluteUrl(`recover-password/${token}`);
 
-Accounts.urls.verifyEmail = (token) => {
-  return Meteor.absoluteUrl(`email-verification/${token}`);
-};
+Accounts.urls.verifyEmail = token =>
+  Meteor.absoluteUrl(`email-verification/${token}`);
 
 Accounts.onCreateUser((options, usr) => {
-
   const user = { ...usr };
 
-  user.profile = options.profile ? options.profile : { firstname: '', lastname: '', name: '' };
+  user.profile = options.profile
+    ? options.profile
+    : { firstname: '', lastname: '', name: '' };
 
   if (user.services.google) {
     user.profile.firstname = user.services.google.given_name;
@@ -27,7 +26,7 @@ Accounts.onCreateUser((options, usr) => {
     user.emails = [{ address: user.services.facebook.email, verified: true }];
   }
 
-  if ((user.emails.length !== -1) && (!user.emails[0].verified)) {
+  if (user.emails.length !== -1 && !user.emails[0].verified) {
     Meteor.setTimeout(function() {
       Accounts.sendVerificationEmail(user._id);
     }, 2 * 1000);

@@ -1,10 +1,8 @@
 import React from 'react';
 import { Button, TextField } from 'material-ui';
-import { Add } from 'material-ui-icons';
 import PropTypes from 'prop-types';
 
 class AddTask extends React.Component {
-
   defaultState = {
     _id: null,
     description: '',
@@ -35,22 +33,20 @@ class AddTask extends React.Component {
   }
 
   onInputChange = ({ target: { name, value } }) => {
-
     const newState = this.state;
 
     newState[name] = value;
 
     this.setState(newState);
-  }
+  };
 
   onSubmit = () => {
     this.props.onSubmit(this.state);
-  }
+  };
 
   render() {
     return (
       <form className="form">
-
         <TextField
           name="description"
           label="Description"
@@ -69,7 +65,10 @@ class AddTask extends React.Component {
           className="form-action"
           raised
           color="primary"
-          onClick={this.onSubmit}>Save</Button>
+          onClick={this.onSubmit}
+        >
+          Save
+        </Button>
       </form>
     );
   }

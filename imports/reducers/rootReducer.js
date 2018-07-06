@@ -6,13 +6,16 @@ import pageSkip from './pageSkip';
 import toasts from './toasts';
 import auth from './auth';
 
-const reducers = Object.assign({
-  router: routerReducer,
-  visibilityFilter,
-  pageSkip,
-  toasts,
-  auth,
-}, subscriptionReducers);
+const reducers = Object.assign(
+  {
+    router: routerReducer,
+    visibilityFilter,
+    pageSkip,
+    toasts,
+    auth,
+  },
+  subscriptionReducers
+);
 
 const rootReducer = combineReducers(reducers);
 

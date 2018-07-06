@@ -1,16 +1,15 @@
-
 const initState = () => ({
   currentUser: null,
-  status: ({
+  status: {
     signup: 'init',
     login: 'init',
     logout: 'init',
-  }),
-  error: ({
+  },
+  error: {
     signup: null,
     login: null,
     logout: null,
-  }),
+  },
 });
 
 const getStatus = (state, key, val) => ({

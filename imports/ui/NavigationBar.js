@@ -17,10 +17,9 @@ const styles = {
 };
 
 class NavigationBarComponent extends React.Component {
-
   static propTypes = {
     location: PropTypes.object.isRequired,
-  }
+  };
 
   render() {
     const { classes, location } = this.props;
@@ -41,11 +40,7 @@ class NavigationBarComponent extends React.Component {
 
     return (
       <Paper elevation={10}>
-        <BottomNavigation
-          value={value}
-          showLabels
-          className={classes.root}
-        >
+        <BottomNavigation value={value} showLabels className={classes.root}>
           <BottomNavigationAction
             label="Login"
             icon={<Person />}

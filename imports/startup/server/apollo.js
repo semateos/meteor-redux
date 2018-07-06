@@ -6,7 +6,10 @@ import { setup } from 'meteor/swydo:ddp-apollo';
 import { initAccounts } from 'meteor/yarn:meteor-apollo-accounts';
 import { mergeTypes, mergeResolvers } from 'merge-graphql-schemas';
 
-const { typeDefs: accountsTypeDefs, resolvers: accountsResolvers } = initAccounts({
+const {
+  typeDefs: accountsTypeDefs,
+  resolvers: accountsResolvers,
+} = initAccounts({
   loginWithFacebook: false,
   loginWithGoogle: false,
   loginWithLinkedIn: false,
@@ -19,7 +22,10 @@ const { typeDefs: accountsTypeDefs, resolvers: accountsResolvers } = initAccount
 const mergedTypeDefs = mergeTypes([typeDefs, ...accountsTypeDefs]);
 const mergedResolvers = mergeResolvers([resolvers, accountsResolvers]);
 
-const schema = makeExecutableSchema({ typeDefs: mergedTypeDefs, resolvers: mergedResolvers });
+const schema = makeExecutableSchema({
+  typeDefs: mergedTypeDefs,
+  resolvers: mergedResolvers,
+});
 
 setup({
   schema,

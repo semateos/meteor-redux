@@ -25,11 +25,13 @@ export class Menu extends React.Component {
               <ListItemText primary="Tasks" />
             </ListItem>
           </Link>
-          <ListItem button onClick={() => {
-
-            this.props.onSelectMenu();
-            this.props.logout();
-          }}>
+          <ListItem
+            button
+            onClick={() => {
+              this.props.onSelectMenu();
+              this.props.logout();
+            }}
+          >
             <ListItemIcon>
               <AccountCircle />
             </ListItemIcon>

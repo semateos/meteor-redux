@@ -5,7 +5,7 @@ export const meteorActionCreator = function(methodOptions) {
   const newMethodOptions = methodOptions;
 
   newMethodOptions.action = function(args) {
-    return async (dispatch) => {
+    return async dispatch => {
       dispatch({
         type: `${methodOptions.name}/begin`,
       });
@@ -46,8 +46,8 @@ export const graphqlResolverCreator = function(methodOptions) {
 
 export class ValidatedActionMethod extends ValidatedMethod {
   constructor(props) {
-  const newProps = props;
-  newProps.mixins = [CallPromiseMixin, meteorActionCreator];
-  super(newProps);
+    const newProps = props;
+    newProps.mixins = [CallPromiseMixin, meteorActionCreator];
+    super(newProps);
   }
 }

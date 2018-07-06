@@ -67,8 +67,8 @@ makeGraphQLInputSchema takes an object description of a method and creates:
       done: Boolean
     }
 */
-export const makeGraphQLInputSchema = (methodOptions) => {
-  const inputName = _.upperFirst(methodOptions.name) + 'Input';
+export const makeGraphQLInputSchema = methodOptions => {
+  const inputName = `${_.upperFirst(methodOptions.name)}Input`;
   return makeGraphQlObject('input', inputName, methodOptions.params);
 };
 
@@ -77,14 +77,20 @@ makeGraphQLFunctionSchema takes an object description of a method and creates:
   - a string containing a piece of graphQL schema describing the method
   - e.g. 'upsertTask(input: UpsertTaskInput!): Task'
 */
-export const makeGraphQLFunctionSchema = (methodOptions) => {
-  const inputName = _.upperFirst(methodOptions.name) + 'Input';
-  const returnType = (typeof methodOptions.returns === 'string') ? methodOptions.returns : methodOptions.returns.name;
+export const makeGraphQLFunctionSchema = methodOptions => {
+  const inputName = `${_.upperFirst(methodOptions.name)}Input`;
+  const returnType =
+    typeof methodOptions.returns === 'string'
+      ? methodOptions.returns
+      : methodOptions.returns.name;
   return `${methodOptions.name}(input: ${inputName}!): ${returnType}`;
 };
 
-export const makeGraphQLQuerySchema = (methodOptions) => {
-  const returnType = (typeof methodOptions.returns === 'string') ? methodOptions.returns : methodOptions.returns.name;
+export const makeGraphQLQuerySchema = methodOptions => {
+  const returnType =
+    typeof methodOptions.returns === 'string'
+      ? methodOptions.returns
+      : methodOptions.returns.name;
   return `${methodOptions.name}(where: JSON): ${returnType}`;
 };
 
@@ -94,17 +100,23 @@ wireMethod takes an object description of a method and creates:
   - which in turn creates a redux actionCreator
   - and a graphQL resolver for the same method
 */
-export const wireMethod = (methodOptions) => {
+export const wireMethod = methodOptions => {
   const newMethodOptions = methodOptions;
 
-  if (typeof newMethodOptions.params === 'object' && !newMethodOptions.validate) {
-    newMethodOptions.validate = new SimpleSchema(methodOptions.params).validator();
+  if (
+    typeof newMethodOptions.params === 'object' &&
+    !newMethodOptions.validate
+  ) {
+    newMethodOptions.validate = new SimpleSchema(
+      methodOptions.params
+    ).validator();
   }
 
   const actionMethod = new ValidatedActionMethod(newMethodOptions);
 
   // write the graphQL resolver for this method:
-  const graphQLResolver = async (root, { input }) => actionMethod.callPromise(input);
+  const graphQLResolver = async (root, { input }) =>
+    actionMethod.callPromise(input);
 
   const graphQLInputSchema = makeGraphQLInputSchema(newMethodOptions);
   const graphQLMutation = makeGraphQLFunctionSchema(newMethodOptions);
@@ -120,25 +132,23 @@ export const wireMethod = (methodOptions) => {
 /*
 wireMethods takes a collection of method descriptions and wires them all
 */
-export const wireMethods = (methods) => {
+export const wireMethods = methods => {
   const returnMethods = {};
 
-  _.forEach(methods, (methodOptions) => {
+  _.forEach(methods, methodOptions => {
     returnMethods[methodOptions.name] = wireMethod(methodOptions);
   });
 
   return returnMethods;
 };
 
-
-export const wireSubscription = (subcriptionOptions) => {
+export const wireSubscription = subcriptionOptions => {
   const subscription = new MeteorReduxSubscription(subcriptionOptions);
   const graphQLQuery = makeGraphQLQuerySchema(subcriptionOptions);
 
   // write the graphQL resolver for this method:
-  const graphQLResolver = async (root, { where }) => {
-    return (where) ? subcriptionOptions.run(where) : subcriptionOptions.run();
-  };
+  const graphQLResolver = async (root, { where }) =>
+    where ? subcriptionOptions.run(where) : subcriptionOptions.run();
 
   graphQLSubscriptionResolvers[subcriptionOptions.name] = graphQLResolver;
   graphQLQueries[subcriptionOptions.name] = graphQLQuery;
@@ -147,11 +157,13 @@ export const wireSubscription = (subcriptionOptions) => {
   return subscription;
 };
 
-export const wireSubscriptions = (subcriptions) => {
+export const wireSubscriptions = subcriptions => {
   const returnSubscriptions = {};
 
-  _.forEach(subcriptions, (subscriptionOptions) => {
-    returnSubscriptions[subscriptionOptions.name] = wireSubscription(subscriptionOptions);
+  _.forEach(subcriptions, subscriptionOptions => {
+    returnSubscriptions[subscriptionOptions.name] = wireSubscription(
+      subscriptionOptions
+    );
   });
 
   return returnSubscriptions;

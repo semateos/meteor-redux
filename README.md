@@ -7,7 +7,7 @@ Start kit repository using:
 - Material-UI (UI component library)
 - Flexbox (css feature to organize HTML elements)
 
-The goal is always to keep this repository up-to-date dependency-wise and with great organization. We can also extract common parts and publish npm and meteor packages, that way this repository can be cloned or forked to start new products with this stack. 
+The goal is always to keep this repository up-to-date dependency-wise and with great organization. We can also extract common parts and publish npm and meteor packages, that way this repository can be cloned or forked to start new products with this stack.
 
 Maybe in the future we have a simple skeleton here that depends on external packages without any code to be deleted after cloned to create a new product. Right now we have sample and start kit code together.
 
@@ -19,7 +19,7 @@ meteor npm install
 `
 ## How to run
 `
-meteor npm start
+npm start
 `
 ## How to format before commit
 `
@@ -43,12 +43,12 @@ Follow these steps:
   - it is important to avoid two people doing the same thing at the same time
 - Start a Pull Request
   - watch how to do it in the first 15 minutes of this [video](https://www.youtube.com/watch?v=TNoGHLZaTRg&t=4343s)
-- Send your code 
+- Send your code
   - don't forget to format your code before commit and have zero eslint erros/warnings
   - commit message should contains the issue id with #
 - Warn the maintainer that you are done
 - Wait for the merge
-- Start again :) 
+- Start again :)
 
 # Useful Links
 - [Material-UI V1 Demo](https://material-ui-next.com/demos/app-bar/)

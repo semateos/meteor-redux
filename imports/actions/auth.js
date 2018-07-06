@@ -12,7 +12,7 @@ internals.flashSuccessThenInit = (dispatch, key, successMethod, successVal) => {
   }, SUCCESS_FLASH_TIMEOUT);
 };
 
-internals.setInitVal = (key) => ({
+internals.setInitVal = key => ({
   payload: key,
   type: 'AUTH_SET_INIT_VAL',
 });
@@ -25,7 +25,7 @@ export function initAuth() {
 }
 
 export function signup(creds) {
-  return (dispatch) => {
+  return dispatch => {
     const { email, password } = creds;
     // Define user profile here
     const profile = {
@@ -33,12 +33,17 @@ export function signup(creds) {
     };
     dispatch(exports.signupPending(true));
     return Accounts.createUser({ email, password, profile })
-      .then((response) => {
+      .then(response => {
         dispatch(exports.signupPending(false));
-        internals.flashSuccessThenInit(dispatch, 'signup', exports.signupSuccess, response);
+        internals.flashSuccessThenInit(
+          dispatch,
+          'signup',
+          exports.signupSuccess,
+          response
+        );
         return dispatch(Router.push('/tasks'));
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(exports.signupPending(false));
         dispatch(exports.loginFail(err));
         return dispatch(Router.push('/'));
@@ -68,17 +73,22 @@ export function signupFail(err) {
 }
 
 export function login(creds) {
-  return (dispatch) => {
+  return dispatch => {
     const { email, password } = creds;
     dispatch(exports.loginPending(true));
     return Accounts.loginWithPassword({ email, password })
-      .then((response) => {
+      .then(response => {
         dispatch(exports.loginPending(false));
-        internals.flashSuccessThenInit(dispatch, 'login', exports.loginSuccess, response);
+        internals.flashSuccessThenInit(
+          dispatch,
+          'login',
+          exports.loginSuccess,
+          response
+        );
         dispatch(exports.loginSuccess(response));
         return dispatch(Router.push('/tasks'));
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(exports.loginPending(false));
         dispatch(exports.loginFail(err));
         return dispatch(Router.push('/'));
@@ -108,15 +118,20 @@ export function loginFail(err) {
 }
 
 export function logout() {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(exports.logoutPending(true));
     return Accounts.logout()
-      .then((response) => {
+      .then(response => {
         dispatch(exports.logoutPending(false));
-        internals.flashSuccessThenInit(dispatch, 'logout', exports.logoutSuccess, response);
+        internals.flashSuccessThenInit(
+          dispatch,
+          'logout',
+          exports.logoutSuccess,
+          response
+        );
         return dispatch(Router.push('/'));
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(exports.logoutPending(false));
         return dispatch(exports.logoutFail(err));
       });

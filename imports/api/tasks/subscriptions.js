@@ -12,7 +12,7 @@ const subscriptions = [
     name: 'tasks',
     returns: '[Task]',
     subscription: 'getTasks',
-    run: (params) => {
+    run: params => {
       const userId = Meteor.userId();
       return Tasks.find({ ...params, userId }).fetch();
     },
@@ -21,7 +21,7 @@ const subscriptions = [
     name: 'task',
     returns: 'Task',
     subscription: 'getTasks',
-    run: (params) => {
+    run: params => {
       const userId = Meteor.userId();
       return Tasks.findOne({ ...params, userId });
     },
