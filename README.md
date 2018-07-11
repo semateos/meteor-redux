@@ -15,7 +15,7 @@ To have a path to follow we choose to build a TODO App as a working sample, we k
 
 ## How to setup
 `
-meteor npm install
+npm install && npm run mgp
 `
 ## How to run
 `
@@ -29,14 +29,14 @@ meteor npm run style
 # How to Contribute with Ideas
 Follow these steps:
 - Open an issue with what you think will be good to have
-- Mention any maintainer, @filipenevola, for instance
+- Mention a maintainer
 - Discuss with the maintainer on the solution until you reach consensus
 - Let clear on the issue what is the result expected to consider this issue done
 
 # How to Contribute with Code
 Follow these steps:
 - Open an issue with what you want to do and how you would do
-- Mention any maintainer, @filipenevola, for instance
+- Mention any maintainer
 - Agree with the maintainer on the solution
 - Fork the repo
 - Let crystal clear that you will start to work on that
@@ -49,6 +49,10 @@ Follow these steps:
 - Warn the maintainer that you are done
 - Wait for the merge
 - Start again :)
+
+# Troubleshooting
+If you get an error that references not being able to find `yarn:meteor-apollo-accounts`
+- You can remedy this by running `npm run mgp` then starting the app again.
 
 # Useful Links
 - [Material-UI V1 Demo](https://material-ui-next.com/demos/app-bar/)
