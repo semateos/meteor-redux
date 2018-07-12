@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { wireSubscriptions } from '/imports/lib/wireMethods';
+import { wireSubscriptions } from '/imports/lib/wireSubscriptions';
 import { Tasks } from '/imports/api/tasks/collection';
 
 // creates actions and reducers for meteor subcriptions
@@ -11,6 +11,7 @@ const subscriptions = [
   {
     name: 'tasks',
     returns: '[Task]',
+    auth: true,
     subscription: 'getTasks',
     run: params => {
       const userId = Meteor.userId();
@@ -20,6 +21,7 @@ const subscriptions = [
   {
     name: 'task',
     returns: 'Task',
+    auth: true,
     subscription: 'getTasks',
     run: params => {
       const userId = Meteor.userId();

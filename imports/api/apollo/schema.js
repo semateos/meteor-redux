@@ -4,8 +4,11 @@ import {
   graphQLTypes,
   graphQLInputTypes,
   graphQLMutations,
-  graphQLQueries,
 } from '/imports/lib/wireMethods';
+
+import {
+  graphQLQueries,
+} from '/imports/lib/wireSubscriptions';
 
 // compose types from auto-wired collections
 let types = '';

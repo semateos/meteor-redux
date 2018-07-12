@@ -1,18 +1,14 @@
 import SimpleSchema from 'simpl-schema';
 import _ from 'lodash';
 import { ValidatedActionMethod } from '/imports/lib/ValidatedActionMethod';
-import { MeteorReduxSubscription } from '/imports/lib/MeteorReduxSubscription';
 
-// collections of methods and subscriptions that have been wired
+// collections of methods that have been wired
 export const allMethods = {};
-export const allSubscriptions = {};
 
 // collections of graphQL schema from wired collections
 export const graphQLMutationResolvers = {};
-export const graphQLSubscriptionResolvers = {};
 export const graphQLTypes = {};
 export const graphQLInputTypes = {};
-export const graphQLQueries = {};
 export const graphQLMutations = {};
 
 /*
@@ -103,6 +99,15 @@ wireMethod takes an object description of a method and creates:
 export const wireMethod = methodOptions => {
   const newMethodOptions = methodOptions;
 
+  // Automatically add token to params if auth is true
+  if (newMethodOptions.auth === true) {
+    if (typeof newMethodOptions.params === 'object') {
+      newMethodOptions.params.token = { type: String };
+    } else {
+      newMethodOptions.params = { token: { type: String } };
+    }
+  }
+
   if (
     typeof newMethodOptions.params === 'object' &&
     !newMethodOptions.validate
@@ -140,31 +145,4 @@ export const wireMethods = methods => {
   });
 
   return returnMethods;
-};
-
-export const wireSubscription = subcriptionOptions => {
-  const subscription = new MeteorReduxSubscription(subcriptionOptions);
-  const graphQLQuery = makeGraphQLQuerySchema(subcriptionOptions);
-
-  // write the graphQL resolver for this method:
-  const graphQLResolver = async (root, { where }) =>
-    where ? subcriptionOptions.run(where) : subcriptionOptions.run();
-
-  graphQLSubscriptionResolvers[subcriptionOptions.name] = graphQLResolver;
-  graphQLQueries[subcriptionOptions.name] = graphQLQuery;
-  allSubscriptions[subcriptionOptions.name] = subscription;
-
-  return subscription;
-};
-
-export const wireSubscriptions = subcriptions => {
-  const returnSubscriptions = {};
-
-  _.forEach(subcriptions, subscriptionOptions => {
-    returnSubscriptions[subscriptionOptions.name] = wireSubscription(
-      subscriptionOptions
-    );
-  });
-
-  return returnSubscriptions;
 };
