@@ -26,6 +26,26 @@ npm start
 meteor npm run style
 `
 
+# Auth setup
+
+To control access to resources, this boilerplate implements auth centered around
+Meteor's own accounts system.
+
+Once you are logged in, you will be able to grab your user id via
+`Meteor.userId()` anywhere on the front/back-end _except_ for in publish functions.
+
+_In a publish function_, use `this.userId` in place of `Meteor.userId()`
+
+## Enforcing resource ownership
+
+Add a `userId` prop to mongo documents, set it to the current user's id using Meteor.userId(). See `imports/api/tasks/methods.js` for examples.
+
+To enforce that a resource is being retrieved by the correct user, add `{ userId: this.userId }` to the graphQL query in the resource publication. See `imports/api/tasks/server/publications.js` for an example.
+
+### Tokens
+
+`meteor-redux` uses Meteor login tokens to manage user sessions and login
+
 # How to Contribute with Ideas
 Follow these steps:
 - Open an issue with what you think will be good to have
