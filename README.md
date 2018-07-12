@@ -15,7 +15,7 @@ To have a path to follow we choose to build a TODO App as a working sample, we k
 
 ## How to setup
 `
-npm install && npm run mgp
+meteor npm install && npm run mgp
 `
 ## How to run
 `
