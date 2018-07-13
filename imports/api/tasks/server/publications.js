@@ -1,3 +1,6 @@
+
+import _ from 'lodash';
+import { wirePublications } from '/imports/lib/wirePublications';
 import { Meteor } from 'meteor/meteor';
 import { Counts } from 'meteor/tmeasday:publish-counts';
 import { Tasks } from '../collection';
@@ -9,27 +12,33 @@ const taskPubFields = {
   userId: true,
 };
 
-const getTaskPublication = function(filter, pageSkip = 0) {
-  const query = { userId: this.userId };
+const publications = [
+  {
+    name: 'getTasks',
+    run: function(filter, pageSkip = 0) {
 
-  switch (filter) {
-    case 'SHOW_COMPLETED':
-      query.done = true;
-      break;
-    case 'SHOW_ACTIVE':
-      query.done = false;
-      break;
-    default:
-      break;
-  }
+      const query = { userId: this.userId };
 
-  Counts.publish(this, 'tasksCount', Tasks.find(query));
+      switch (filter) {
+        case 'SHOW_COMPLETED':
+          query.done = true;
+          break;
+        case 'SHOW_ACTIVE':
+          query.done = false;
+          break;
+        default:
+          break;
+      }
 
-  return Tasks.find(query, {
-    fields: taskPubFields,
-    skip: pageSkip,
-    limit: 10,
-  });
-};
+      Counts.publish(this, 'tasksCount', Tasks.find(query));
 
-Meteor.publish('getTasks', getTaskPublication);
+      return Tasks.find(query, {
+        fields: taskPubFields,
+        skip: pageSkip,
+        limit: 10,
+      });
+    },
+  },
+];
+
+export default _.forEach(wirePublications(publications), pub => Meteor.publish(pub.name, pub.run));

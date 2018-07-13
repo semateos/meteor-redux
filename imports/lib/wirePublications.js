@@ -1,19 +1,9 @@
 
 import _ from 'lodash';
 
-export const wirePublication = options => {
-
-  if (options.auth) {
-    
-  }
+export const wirePublication = pub => {
+  const pubClone = { ...pub };
+  return pubClone;
 };
 
-export const wirePublications = methods => {
-  const returnPublications = {};
-
-  _.forEach(methods, options => {
-    returnPublications[options.name] = wirePublication(options);
-  });
-
-  return returnPublications;
-};
+export const wirePublications = pubs => _.map(pubs, pubOptions => wirePublication(pubOptions));

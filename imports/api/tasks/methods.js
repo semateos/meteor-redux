@@ -6,7 +6,7 @@ const methods = [
   {
     name: 'upsertTask',
     returns: 'Task',
-    // auth: true,
+    auth: true,
     params: {
       _id: { type: String, optional: true },
       description: { type: String, min: 1 },
@@ -27,7 +27,7 @@ const methods = [
   {
     name: 'setTaskDone',
     returns: 'Task',
-    // auth: true,
+    auth: true,
     params: {
       _id: { type: String },
       done: { type: Boolean },
@@ -41,7 +41,7 @@ const methods = [
   {
     name: 'removeTask',
     returns: Boolean,
-    // auth: true,
+    auth: true,
     params: {
       _id: { type: String },
     },

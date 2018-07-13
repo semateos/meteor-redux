@@ -1,5 +1,7 @@
+import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import _ from 'lodash';
+import { Accounts } from 'meteor/accounts-base';
 import { ValidatedActionMethod } from '/imports/lib/ValidatedActionMethod';
 
 // collections of methods that have been wired
@@ -97,7 +99,7 @@ wireMethod takes an object description of a method and creates:
   - and a graphQL resolver for the same method
 */
 export const wireMethod = methodOptions => {
-  const newMethodOptions = methodOptions;
+  const newMethodOptions = { ...methodOptions };
 
   // Automatically add token to params if auth is true
   if (newMethodOptions.auth === true) {
@@ -106,6 +108,39 @@ export const wireMethod = methodOptions => {
     } else {
       newMethodOptions.params = { token: { type: String } };
     }
+
+    newMethodOptions.run = function(args) {
+
+      /*
+        Of interest to auth / security
+        If auth is true for given 'methodOptions', the login token is passed up
+        from the client. The token is hashed on the server and checked
+        against tokens associated with the logged-in user
+
+        The method will error with 'Unauthorized' if there isn't a match
+      */
+
+      if (Meteor.isServer) {
+        const user = Meteor.user();
+
+        if (user.services &&
+            user.services.resume &&
+            user.services.resume.loginTokens &&
+            Array.isArray(user.services.resume.loginTokens)) {
+          const hashedToken = Accounts._hashLoginToken(args.token);
+          const tokenMatch = user.services.resume.loginTokens.find(token =>
+            token.hashedToken === hashedToken);
+
+          if (!tokenMatch) {
+            throw new Meteor.Error(403, 'Unauthorized');
+          }
+        } else {
+          throw new Meteor.Error(403, 'Unauthorized');
+        }
+      }
+
+      return methodOptions.run(args);
+    };
   }
 
   if (

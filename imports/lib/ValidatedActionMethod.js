@@ -1,8 +1,9 @@
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
+import { getLoginToken } from 'meteor-apollo-accounts-client/client/store';
 
 export const meteorActionCreator = function(methodOptions) {
-  const newMethodOptions = methodOptions;
+  const newMethodOptions = { ...methodOptions };
 
   newMethodOptions.action = function(args) {
     return async dispatch => {
@@ -11,7 +12,16 @@ export const meteorActionCreator = function(methodOptions) {
       });
 
       try {
-        const payload = await this.callPromise(args);
+        const newArgs = { ...args };
+
+        // Of interest for auth, this block grabs
+        // and passes up the loginToken from our
+        // accounts client lib if auth is true
+        if (newMethodOptions.auth) {
+          newArgs.token = await getLoginToken();
+        }
+
+        const payload = await this.callPromise(newArgs);
 
         dispatch({
           type: `${methodOptions.name}/success`,
