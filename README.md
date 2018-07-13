@@ -44,7 +44,11 @@ To enforce that a resource is being retrieved by the correct user, add `{ userId
 
 ### Tokens
 
-`meteor-redux` uses Meteor login tokens to manage user sessions and login
+- `meteor-redux` uses Meteor login tokens to manage user sessions and login
+- Setting `{ auth: true }` on a Meteor method will
+  - Pass up the user's loginToken from the clientside to server through GQL and
+  - Once on the server, will check the token against what is saved to the user.
+  This is done by adding a graphQL field `token` on methods. See `imports/api/tasks/methods` for an example.
 
 # How to Contribute with Ideas
 Follow these steps:
