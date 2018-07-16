@@ -19,6 +19,7 @@ export const meteorActionCreator = function(methodOptions) {
         // accounts client lib if auth is true
         if (newMethodOptions.auth) {
           newArgs.token = await getLoginToken();
+          console.log('newArgs.token', newArgs.token);
         }
 
         const payload = await this.callPromise(newArgs);

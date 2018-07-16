@@ -109,37 +109,34 @@ export const wireMethod = methodOptions => {
       newMethodOptions.params = { token: { type: String } };
     }
 
-    newMethodOptions.run = function(args) {
-
+    newMethodOptions.run = async function(args) {
       /*
         Of interest to auth / security
         If auth is true for given 'methodOptions', the login token is passed up
         from the client. The token is hashed on the server and checked
-        against tokens associated with the logged-in user
+        against tokens in the db
 
         The method will error with 'Unauthorized' if there isn't a match
       */
 
+      const argsClone = { ...args };
+
       if (Meteor.isServer) {
-        const user = Meteor.user();
+        // TODO sanitize token
+        const hashedToken = Accounts._hashLoginToken(args.token);
 
-        if (user.services &&
-            user.services.resume &&
-            user.services.resume.loginTokens &&
-            Array.isArray(user.services.resume.loginTokens)) {
-          const hashedToken = Accounts._hashLoginToken(args.token);
-          const tokenMatch = user.services.resume.loginTokens.find(token =>
-            token.hashedToken === hashedToken);
+        const foundUser = await Meteor.users.findOne({
+          'services.resume.loginTokens.hashedToken': hashedToken,
+        });
 
-          if (!tokenMatch) {
-            throw new Meteor.Error(403, 'Unauthorized');
-          }
-        } else {
+        if (!foundUser) {
           throw new Meteor.Error(403, 'Unauthorized');
         }
+
+        argsClone.auth = { user: foundUser };
       }
 
-      return methodOptions.run(args);
+      return methodOptions.run(argsClone);
     };
   }
 

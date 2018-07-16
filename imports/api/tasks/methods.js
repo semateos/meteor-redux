@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import { wireMethods } from '/imports/lib/wireMethods';
 import { Tasks } from './collection';
 
@@ -13,8 +12,8 @@ const methods = [
       details: { type: String, optional: true },
       done: { type: Boolean, optional: true },
     },
-    run: async ({ _id, ...item }) => {
-      const userId = Meteor.userId();
+    run: async ({ _id, auth, ...item }) => {
+      const userId = auth.user._id;
       const itemWithOwner = { ...item, userId };
       const result = await Tasks.upsert(
         { _id, userId },
@@ -32,8 +31,8 @@ const methods = [
       _id: { type: String },
       done: { type: Boolean },
     },
-    run: ({ _id, ...item }) => {
-      const userId = Meteor.userId();
+    run: ({ _id, auth, ...item }) => {
+      const userId = auth.user._id;
       Tasks.update({ _id, userId }, { $set: item });
       return Tasks.findOne({ _id, userId });
     },
@@ -45,8 +44,8 @@ const methods = [
     params: {
       _id: { type: String },
     },
-    run: ({ _id }) => {
-      const userId = Meteor.userId();
+    run: ({ _id, auth }) => {
+      const userId = auth.user._id;
       return Tasks.remove({ _id, userId });
     },
   },
