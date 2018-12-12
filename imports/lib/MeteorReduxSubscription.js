@@ -11,10 +11,10 @@ export const reducers = {};
 
 export class MeteorReduxSubscription {
   constructor(props) {
-    this.start = (params) =>
+    this.start = params =>
       startSubscription({
         key: props.name,
-        get: () => (params) ? props.run(params) : props.run({}),
+        get: () => (params ? props.run(params) : props.run({})),
         subscribe: () => Meteor.subscribe(props.subscription),
       });
 
@@ -31,12 +31,13 @@ export class MeteorReduxSubscription {
           // this conditional is attempting to not overwrite offline persisted state
           // with an empty set while the subscription is starting up but not ready
           // so it only applies the payload to store if it's non-empty
-          return (state.ready || (action.payload && (action.payload.length || action.payload._id))) ?
-            { ...state, item: action.payload, stopped: false }
+          return state.ready ||
+            (action.payload && (action.payload.length || action.payload._id))
+            ? { ...state, item: action.payload, stopped: false }
             : state;
         case STOP_SUBSCRIPTION:
-          return action.payload === actionStub ?
-            { ...state, stopped: true }
+          return action.payload === actionStub
+            ? { ...state, stopped: true }
             : state;
         default:
           return state;

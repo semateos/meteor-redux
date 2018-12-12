@@ -8,7 +8,7 @@ export const schema = {
   description: { type: String },
   details: { type: String, optional: true },
   done: { type: Boolean, defaultValue: false, optional: true },
-  // userId: {type: String, regEx: SimpleSchema.RegEx.Id, optional: true}
+  userId: { type: String, regEx: SimpleSchema.RegEx.Id, optional: true },
 };
 
 Tasks.attachSchema(new SimpleSchema(schema));

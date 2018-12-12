@@ -3,7 +3,7 @@ import { withStyles } from 'material-ui/styles';
 import BottomNavigation, {
   BottomNavigationAction,
 } from 'material-ui/BottomNavigation';
-import { Add, ViewList } from 'material-ui-icons';
+import { Add, ViewList, Person } from 'material-ui-icons';
 import { Paper } from 'material-ui';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -17,32 +17,41 @@ const styles = {
 };
 
 class NavigationBarComponent extends React.Component {
-  state = {
-    value: 0,
-  };
-
-  handleChange = (event, value) => {
-    this.setState({ value });
+  static propTypes = {
+    location: PropTypes.object.isRequired,
   };
 
   render() {
-    const { classes } = this.props;
-    const { value } = this.state;
-    const { router: { history } } = this.context;
+    const { classes, location } = this.props;
+
+    let value;
+
+    switch (location.pathname) {
+      case '/':
+        value = 0;
+        break;
+      case '/tasks':
+        value = 1;
+        break;
+      case '/add':
+        value = 2;
+        break;
+    }
 
     return (
       <Paper elevation={10}>
-        <BottomNavigation
-          value={value}
-          onChange={this.handleChange}
-          showLabels
-          className={classes.root}
-        >
+        <BottomNavigation value={value} showLabels className={classes.root}>
+          <BottomNavigationAction
+            label="Login"
+            icon={<Person />}
+            component={Link}
+            to="/"
+          />
           <BottomNavigationAction
             label="Tasks"
             icon={<ViewList />}
             component={Link}
-            to="/"
+            to="/tasks"
           />
           <BottomNavigationAction
             label="Add"
@@ -55,11 +64,5 @@ class NavigationBarComponent extends React.Component {
     );
   }
 }
-
-NavigationBarComponent.contextTypes = {
-  router: PropTypes.shape({
-    history: PropTypes.object.isRequired,
-  }),
-};
 
 export const NavigationBar = withStyles(styles)(NavigationBarComponent);

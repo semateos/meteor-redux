@@ -1,18 +1,16 @@
+import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import _ from 'lodash';
+import { Accounts } from 'meteor/accounts-base';
 import { ValidatedActionMethod } from '/imports/lib/ValidatedActionMethod';
-import { MeteorReduxSubscription } from '/imports/lib/MeteorReduxSubscription';
 
-// collections of methods and subscriptions that have been wired
+// collections of methods that have been wired
 export const allMethods = {};
-export const allSubscriptions = {};
 
 // collections of graphQL schema from wired collections
 export const graphQLMutationResolvers = {};
-export const graphQLSubscriptionResolvers = {};
 export const graphQLTypes = {};
 export const graphQLInputTypes = {};
-export const graphQLQueries = {};
 export const graphQLMutations = {};
 
 /*
@@ -67,8 +65,8 @@ makeGraphQLInputSchema takes an object description of a method and creates:
       done: Boolean
     }
 */
-export const makeGraphQLInputSchema = (methodOptions) => {
-  const inputName = _.upperFirst(methodOptions.name) + 'Input';
+export const makeGraphQLInputSchema = methodOptions => {
+  const inputName = `${_.upperFirst(methodOptions.name)}Input`;
   return makeGraphQlObject('input', inputName, methodOptions.params);
 };
 
@@ -77,14 +75,20 @@ makeGraphQLFunctionSchema takes an object description of a method and creates:
   - a string containing a piece of graphQL schema describing the method
   - e.g. 'upsertTask(input: UpsertTaskInput!): Task'
 */
-export const makeGraphQLFunctionSchema = (methodOptions) => {
-  const inputName = _.upperFirst(methodOptions.name) + 'Input';
-  const returnType = (typeof methodOptions.returns === 'string') ? methodOptions.returns : methodOptions.returns.name;
+export const makeGraphQLFunctionSchema = methodOptions => {
+  const inputName = `${_.upperFirst(methodOptions.name)}Input`;
+  const returnType =
+    typeof methodOptions.returns === 'string'
+      ? methodOptions.returns
+      : methodOptions.returns.name;
   return `${methodOptions.name}(input: ${inputName}!): ${returnType}`;
 };
 
-export const makeGraphQLQuerySchema = (methodOptions) => {
-  const returnType = (typeof methodOptions.returns === 'string') ? methodOptions.returns : methodOptions.returns.name;
+export const makeGraphQLQuerySchema = methodOptions => {
+  const returnType =
+    typeof methodOptions.returns === 'string'
+      ? methodOptions.returns
+      : methodOptions.returns.name;
   return `${methodOptions.name}(where: JSON): ${returnType}`;
 };
 
@@ -94,17 +98,62 @@ wireMethod takes an object description of a method and creates:
   - which in turn creates a redux actionCreator
   - and a graphQL resolver for the same method
 */
-export const wireMethod = (methodOptions) => {
-  const newMethodOptions = methodOptions;
+export const wireMethod = methodOptions => {
+  const newMethodOptions = { ...methodOptions };
 
-  if (typeof newMethodOptions.params === 'object' && !newMethodOptions.validate) {
-    newMethodOptions.validate = new SimpleSchema(methodOptions.params).validator();
+  // Automatically add token to params if auth is true
+  if (newMethodOptions.auth === true) {
+    if (typeof newMethodOptions.params === 'object') {
+      newMethodOptions.params.token = { type: String };
+    } else {
+      newMethodOptions.params = { token: { type: String } };
+    }
+
+    newMethodOptions.run = async function(args) {
+      /*
+        Of interest to auth / security
+        If auth is true for given 'methodOptions', the login token is passed up
+        from the client. The token is hashed on the server and checked
+        against tokens in the db
+
+        The method will error with 'Unauthorized' if there isn't a match
+      */
+
+      const argsClone = { ...args };
+
+      if (Meteor.isServer) {
+        // TODO sanitize token
+        const hashedToken = Accounts._hashLoginToken(args.token);
+
+        const foundUser = await Meteor.users.findOne({
+          'services.resume.loginTokens.hashedToken': hashedToken,
+        });
+
+        if (!foundUser) {
+          throw new Meteor.Error(403, 'Unauthorized');
+        }
+
+        argsClone.auth = { user: foundUser };
+      }
+
+      return methodOptions.run(argsClone);
+    };
+  }
+
+  if (
+    typeof newMethodOptions.params === 'object' &&
+    !newMethodOptions.validate
+  ) {
+    newMethodOptions.validate = new SimpleSchema(
+      methodOptions.params
+    ).validator();
   }
 
   const actionMethod = new ValidatedActionMethod(newMethodOptions);
 
   // write the graphQL resolver for this method:
-  const graphQLResolver = async (root, { input }) => actionMethod.callPromise(input);
+  const graphQLResolver = async (root, { input }) =>
+    actionMethod.callPromise(input);
 
   const graphQLInputSchema = makeGraphQLInputSchema(newMethodOptions);
   const graphQLMutation = makeGraphQLFunctionSchema(newMethodOptions);
@@ -120,39 +169,12 @@ export const wireMethod = (methodOptions) => {
 /*
 wireMethods takes a collection of method descriptions and wires them all
 */
-export const wireMethods = (methods) => {
+export const wireMethods = methods => {
   const returnMethods = {};
 
-  _.forEach(methods, (methodOptions) => {
+  _.forEach(methods, methodOptions => {
     returnMethods[methodOptions.name] = wireMethod(methodOptions);
   });
 
   return returnMethods;
-};
-
-
-export const wireSubscription = (subcriptionOptions) => {
-  const subscription = new MeteorReduxSubscription(subcriptionOptions);
-  const graphQLQuery = makeGraphQLQuerySchema(subcriptionOptions);
-
-  // write the graphQL resolver for this method:
-  const graphQLResolver = async (root, { where }) => {
-    return (where) ? subcriptionOptions.run(where) : subcriptionOptions.run();
-  };
-
-  graphQLSubscriptionResolvers[subcriptionOptions.name] = graphQLResolver;
-  graphQLQueries[subcriptionOptions.name] = graphQLQuery;
-  allSubscriptions[subcriptionOptions.name] = subscription;
-
-  return subscription;
-};
-
-export const wireSubscriptions = (subcriptions) => {
-  const returnSubscriptions = {};
-
-  _.forEach(subcriptions, (subscriptionOptions) => {
-    returnSubscriptions[subscriptionOptions.name] = wireSubscription(subscriptionOptions);
-  });
-
-  return returnSubscriptions;
 };

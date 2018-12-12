@@ -1,4 +1,5 @@
-import { wireSubscriptions } from '/imports/lib/wireMethods';
+import { Meteor } from 'meteor/meteor';
+import { wireSubscriptions } from '/imports/lib/wireSubscriptions';
 import { Tasks } from '/imports/api/tasks/collection';
 
 // creates actions and reducers for meteor subcriptions
@@ -10,14 +11,22 @@ const subscriptions = [
   {
     name: 'tasks',
     returns: '[Task]',
+    auth: true,
     subscription: 'getTasks',
-    run: (params) => Tasks.find(params).fetch(),
+    run: params => {
+      const userId = Meteor.userId();
+      return Tasks.find({ ...params, userId }).fetch();
+    },
   },
   {
     name: 'task',
     returns: 'Task',
+    auth: true,
     subscription: 'getTasks',
-    run: (params) => Tasks.findOne(params),
+    run: params => {
+      const userId = Meteor.userId();
+      return Tasks.findOne({ ...params, userId });
+    },
   },
 ];
 

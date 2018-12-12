@@ -5,39 +5,48 @@ const methods = [
   {
     name: 'upsertTask',
     returns: 'Task',
+    auth: true,
     params: {
       _id: { type: String, optional: true },
       description: { type: String, min: 1 },
       details: { type: String, optional: true },
       done: { type: Boolean, optional: true },
     },
-    run: async ({ _id, ...item }) => {
-      const result = await Tasks.upsert({ _id }, { $set: item });
-      const id = (result.insertedId) ? result.insertedId : _id;
-      return Tasks.findOne({ _id: id });
+    run: async ({ _id, auth, ...item }) => {
+      const userId = auth.user._id;
+      const itemWithOwner = { ...item, userId };
+      const result = await Tasks.upsert(
+        { _id, userId },
+        { $set: itemWithOwner }
+      );
+      const id = result.insertedId ? result.insertedId : _id;
+      return Tasks.findOne({ _id: id, userId });
     },
   },
   {
     name: 'setTaskDone',
     returns: 'Task',
+    auth: true,
     params: {
       _id: { type: String },
       done: { type: Boolean },
     },
-    run: ({ _id, ...item }) => {
-      Tasks.update({ _id }, { $set: item });
-      return Tasks.findOne({ _id });
+    run: ({ _id, auth, ...item }) => {
+      const userId = auth.user._id;
+      Tasks.update({ _id, userId }, { $set: item });
+      return Tasks.findOne({ _id, userId });
     },
   },
   {
     name: 'removeTask',
     returns: Boolean,
+    auth: true,
     params: {
       _id: { type: String },
     },
-    run: ({ _id }) => {
-      const res = Tasks.remove({ _id });
-      return (res);
+    run: ({ _id, auth }) => {
+      const userId = auth.user._id;
+      return Tasks.remove({ _id, userId });
     },
   },
 ];

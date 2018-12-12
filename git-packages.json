@@ -1,0 +1,6 @@
+{
+  "yarn:meteor-apollo-accounts": {
+    "git": "git@github.com:bigroomstudios/meteor-apollo-accounts-server.git",
+    "branch": "master"
+  }
+}
