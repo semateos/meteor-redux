@@ -1,17 +1,13 @@
-# Meteor React Latest
+# Meteor + Redux + Apollo + Magic
 
 Start kit repository using:
 - Meteor (build tool, backend/frontend setup)
 - GraphQL with Apollo (apollo server and apollo react client)
-- React (view)
+- React
+- Redux
 - Material-UI (UI component library)
-- Flexbox (css feature to organize HTML elements)
 
-The goal is always to keep this repository up-to-date dependency-wise and with great organization. We can also extract common parts and publish npm and meteor packages, that way this repository can be cloned or forked to start new products with this stack.
-
-Maybe in the future we have a simple skeleton here that depends on external packages without any code to be deleted after cloned to create a new product. Right now we have sample and start kit code together.
-
-To have a path to follow we choose to build a TODO App as a working sample, we know, there are a lot of them out there, it is just to practice and learn.
+The goal of this project is to implement a realtime Meteor application that simultaneously exposes a GraphQL API usable for _other_ applications. The application uses "traditional" Meteor/Mongo pub/sub and Meteor Methods.  The _Magic_ part is that those methods and subscriptions are automagically wired into redux stores/actions -AND- automagically generated into GraphQL schema.  This means that we write data schemas, data manipulation methods, and data access subscriptions _ONCE_.
 
 ## How to setup
 `
