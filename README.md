@@ -3,8 +3,7 @@
 Start kit repository using:
 - Meteor (build tool, backend/frontend setup)
 - GraphQL with Apollo (apollo server and apollo react client)
-- React
-- Redux
+- React + Redux (front-end design pattern)
 - Material-UI (UI component library)
 
 The goal of this project is to implement a realtime Meteor application that simultaneously exposes a GraphQL API usable for _other_ applications. The application uses "traditional" Meteor/Mongo pub/sub and Meteor Methods.  The _Magic_ part is that those methods and subscriptions are automagically wired into redux stores/actions -AND- automagically generated into GraphQL schema.  This means that we write data schemas, data manipulation methods, and data access subscriptions _ONCE_.
