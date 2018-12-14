@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, TextField, Tabs, Tab } from 'material-ui';
+import { Button, TextField, Tabs, Tab } from '@material-ui/core';
 import Accounts from 'meteor-apollo-accounts-client';
 
 export default class Login extends React.Component {
@@ -98,7 +98,6 @@ export default class Login extends React.Component {
           {formErr && <div className="error">{formErr.message}</div>}
           <Button
             className="form-action"
-            raised="true"
             color="primary"
             onClick={this.onSubmit}
           >

@@ -1,10 +1,9 @@
-import React from 'react';
-import { withStyles } from 'material-ui/styles';
-import BottomNavigation, {
-  BottomNavigationAction,
-} from 'material-ui/BottomNavigation';
-import { Add, ViewList, Person } from 'material-ui-icons';
-import { Paper } from 'material-ui';
+import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import Paper from '@material-ui/core/Paper';
+import { Add, ViewList, Person } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -16,7 +15,7 @@ const styles = {
   },
 };
 
-class NavigationBarComponent extends React.Component {
+class NavigationBarComponent extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
   };

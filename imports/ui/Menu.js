@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Drawer from 'material-ui/Drawer';
-import { Home, List as ListIcon, AccountCircle } from 'material-ui-icons';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import { Home, List as ListIcon, AccountCircle } from '@material-ui/icons';
 
 export class Menu extends React.Component {
   render() {

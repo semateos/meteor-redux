@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, TextField } from 'material-ui';
+import { Button, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
 class AddTask extends React.Component {
@@ -63,7 +63,6 @@ class AddTask extends React.Component {
         />
         <Button
           className="form-action"
-          raised
           color="primary"
           onClick={this.onSubmit}
         >
