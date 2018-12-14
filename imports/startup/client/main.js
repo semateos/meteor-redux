@@ -3,7 +3,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { ConnectedRouter } from 'react-router-redux';
 
 import Accounts from 'meteor-apollo-accounts-client';

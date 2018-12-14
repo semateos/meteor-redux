@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
-import CssBaseline from 'material-ui/CssBaseline';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import IconButton from 'material-ui/IconButton';
-import MenuIcon from 'material-ui-icons/Menu';
-import Typography from 'material-ui/Typography';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import MenuIcon from '@material-ui/icons/Menu';
 import NavigationBar from '/imports/containers/NavigationBar';
 import Menu from '/imports/containers/Menu';
 import { Routes } from './Routes';
@@ -38,7 +38,7 @@ export class App extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography type="headline" color="inherit">
+            <Typography variant="h5" color="inherit">
               Meteor Redux
             </Typography>
           </Toolbar>

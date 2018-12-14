@@ -1,7 +1,7 @@
 import React from 'react';
-import { Checkbox, ListItem, ListItemText } from 'material-ui';
-import { DeleteForever } from 'material-ui-icons';
-import { indigo } from 'material-ui/colors/index';
+import { Checkbox, ListItem, ListItemText } from '@material-ui/core';
+import { DeleteForever } from '@material-ui/icons';
+import { indigo } from '@material-ui/core/colors/index';
 
 export default ({ item, onFlip, onItemClick, onRemove }) => (
   <ListItem>
