@@ -39,7 +39,7 @@ const methods = [
       const task = Tasks.findOne(_id);
 
       // If user doesn't own task, then kick out
-      if (task.userId !== this.userId) {
+      if (task.userId !== userId) {
         throw new Meteor.Error(403,
           'This task doesn\'t belong to you.');
       }

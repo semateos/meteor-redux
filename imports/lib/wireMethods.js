@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import _ from 'lodash';
-import { Accounts } from 'meteor/accounts-base';
 import { ValidatedActionMethod } from '/imports/lib/ValidatedActionMethod';
 
 // collections of methods that have been wired
