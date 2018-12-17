@@ -20,7 +20,11 @@ setTimeout(() => {
   Initializers.run(Store);
 });
 
-const theme = createMuiTheme();
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
+});
 
 Meteor.startup(() => {
   render(

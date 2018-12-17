@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { wireMethods } from '/imports/lib/wireMethods';
 import { Tasks } from './collection';
 
@@ -33,7 +34,17 @@ const methods = [
     },
     run: ({ _id, auth, ...item }) => {
       const userId = auth.user._id;
-      Tasks.update({ _id, userId }, { $set: item });
+
+      // Grab task from db.
+      const task = Tasks.findOne(_id);
+
+      // If user doesn't own task, then kick out
+      if (task.userId !== this.userId) {
+        throw new Meteor.Error(403,
+          'This task doesn\'t belong to you.');
+      }
+
+      Tasks.update({ _id }, { $set: item });
       return Tasks.findOne({ _id, userId });
     },
   },

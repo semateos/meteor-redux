@@ -121,20 +121,15 @@ export const wireMethod = methodOptions => {
 
       const argsClone = { ...args };
 
-      if (Meteor.isServer) {
-        // TODO sanitize token
-        const hashedToken = Accounts._hashLoginToken(args.token);
-
-        const foundUser = await Meteor.users.findOne({
-          'services.resume.loginTokens.hashedToken': hashedToken,
-        });
-
-        if (!foundUser) {
-          throw new Meteor.Error(403, 'Unauthorized');
-        }
-
-        argsClone.auth = { user: foundUser };
+      // Check if user is logged in
+      if (!this.userId) {
+        throw new Meteor.Error(403, 'Unauthorized');
       }
+
+      // If user is logged in, then add the user to the auth object.
+      const foundUser = await Meteor.users.findOne(this.userId);
+
+      argsClone.auth = { user: foundUser };
 
       return methodOptions.run(argsClone);
     };
